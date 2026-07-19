@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cake · Home (web concept)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F0E9; --bg2:#EBE5D7; --card:#FCFAF4; --card2:#F3EEE2;
+  --line:#DBD3C2; --line-soft:#E8E1D1;
+  --ink:#16140F; --ink2:#4A463D; --muted:#6E695C; --faint:#9C9484;
+  --acc:#9D00FF; --acc-wash:rgba(157,0,255,.13); --onacc:#F2F0E9;
+  --shadow:0 12px 32px rgba(33,30,24,.10);
+  --disp:'Bebas Neue', 'Oswald', Impact, sans-serif;
+  --sans:'Inter', -apple-system, system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--sans); background:var(--bg); color:var(--ink);
+  font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.topo-page{position:fixed;inset:0;pointer-events:none;opacity:.5;z-index:0}
+.app{position:relative;z-index:1;display:flex;min-height:100vh}
+
+/* ---------- sidebar (matches live shell) ---------- */
+.side{
+  width:108px;flex:none;background:var(--card);border-right:1px solid var(--line-soft);
+  display:flex;flex-direction:column;align-items:center;padding:22px 10px 18px;
+  position:sticky;top:0;height:100vh;
+}
+.wordmark{font-family:var(--disp);font-size:30px;letter-spacing:.02em;line-height:.9}
+.handle{font-size:11px;color:var(--muted);margin-top:2px}
+.nav{display:flex;flex-direction:column;gap:6px;margin-top:26px;width:100%}
+.nav a{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 4px 10px;border-radius:14px;text-decoration:none;
+  color:var(--ink2);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+  position:relative;transition:background .15s ease,color .15s ease;
+}
+.nav a:hover{background:var(--card2)}
+.nav a.active{background:var(--acc-wash);color:var(--ink)}
+.nav a.active svg{stroke:var(--acc)}
+.nav svg{width:21px;height:21px;stroke:var(--ink2);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s ease}
+.badge{
+  position:absolute;top:7px;right:16px;min-width:17px;height:17px;border-radius:9px;
+  background:var(--acc);color:var(--onacc);font-size:10.5px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;padding:0 4px;
+}
+.side .spacer{flex:1}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+
+/* ---------- main ---------- */
+.main{flex:1;min-width:0;padding:34px 44px 60px;max-width:1240px}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:24px}
+h1{font-family:var(--disp);font-size:52px;line-height:.92;letter-spacing:.01em;font-weight:400}
+.date{color:var(--muted);font-size:13.5px;margin-top:6px}
+.new-btn{
+  display:inline-flex;align-items:center;gap:9px;background:var(--acc);color:var(--onacc);
+  border:none;border-radius:999px;padding:12px 22px;font-family:var(--sans);
+  font-size:13.5px;font-weight:600;letter-spacing:.02em;cursor:pointer;
+  box-shadow:0 8px 22px rgba(157,0,255,.28);transition:transform .15s ease,box-shadow .15s ease;
+}
+.new-btn:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(157,0,255,.34)}
+.new-btn:focus-visible,.nav a:focus-visible,.row:focus-visible,.numbers-link:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.new-btn svg{width:15px;height:15px;stroke:var(--onacc);stroke-width:2.4;fill:none;stroke-linecap:round}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 356px;gap:22px;align-items:start}
+
+/* ---------- money card ---------- */
+.money{
+  grid-column:1/-1;position:relative;overflow:hidden;border-radius:22px;
+  background:#16140F;color:var(--bg);padding:34px 40px 30px;box-shadow:var(--shadow);
+}
+.money .topo{position:absolute;inset:0;opacity:.6;pointer-events:none}
+.money-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.money .label{font-size:12px;font-weight:700;letter-spacing:.22em;color:rgba(242,240,233,.55)}
+.money .amount{font-family:var(--disp);font-size:96px;line-height:.9;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.money .sub{font-size:15px;color:rgba(242,240,233,.72)}
+.money .stats{display:flex;gap:44px;padding-bottom:6px}
+.stat .n{font-family:var(--disp);font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{font-size:11px;font-weight:600;letter-spacing:.16em;color:rgba(242,240,233,.55);margin-top:6px}
+/* ---------- add-to-calendar menu ---------- */
+.addwrap{position:relative}
+.menu{
+  position:absolute;top:calc(100% + 10px);right:0;width:340px;z-index:40;
+  background:var(--card);border:1px solid var(--line-soft);border-radius:20px;
+  box-shadow:var(--shadow);padding:16px;display:none;
+}
+.menu.open{display:block}
+.menu h3{
+  font-family:var(--disp);font-weight:400;font-size:17px;letter-spacing:.05em;
+  color:var(--ink2);margin:2px 4px 12px;
+}
+.opt{
+  display:flex;align-items:center;gap:15px;width:100%;text-align:left;border:none;cursor:pointer;
+  background:var(--card2);border-radius:16px;padding:14px 16px;margin-top:8px;
+  font-family:var(--sans);transition:background .15s ease;
+}
+.opt:first-of-type{margin-top:0}
+.opt:hover{background:var(--bg2)}
+.opt:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.opt .ic{
+  width:44px;height:44px;border-radius:12px;background:var(--acc);flex:none;
+  display:flex;align-items:center;justify-content:center;
+}
+.opt .ic svg{width:20px;height:20px;stroke:var(--onacc);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.opt b{display:block;font-size:15.5px;font-weight:700;color:var(--ink)}
+.opt span{font-size:13.5px;color:var(--muted)}
+
+/* ---------- today column ---------- */
+.section-h{display:flex;align-items:baseline;gap:10px;margin:6px 0 14px}
+.section-h h2{font-family:var(--disp);font-size:24px;letter-spacing:.03em;font-weight:400}
+.section-h .when{color:var(--muted);font-size:13px}
+.section-h .rule{flex:1;height:1px;background:var(--line-soft);align-self:center}
+.dayoff{
+  border:1px dashed var(--line);border-radius:18px;padding:26px;text-align:center;
+  color:var(--muted);font-size:14.5px;
+  background:repeating-linear-gradient(-45deg,transparent 0 9px,rgba(219,211,194,.22) 9px 10px);
+}
+.sess{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.row{
+  display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line-soft);
+  border-radius:18px;padding:15px 18px;text-decoration:none;color:inherit;
+  transition:border-color .15s ease,transform .15s ease;box-shadow:0 2px 10px rgba(33,30,24,.04);
+}
+.row:hover{border-color:var(--line);transform:translateY(-1px)}
+.pfp{width:46px;height:46px;border-radius:13px;background:var(--card2);border:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--ink2);flex:none;overflow:hidden}
+.pfp.art{background:linear-gradient(135deg,#E9DFC8,#D9CBAF)}
+.row .who{flex:1;min-width:0}
+.row .who b{font-size:15px;font-weight:600;display:block}
+.row .who span{font-size:13px;color:var(--muted)}
+.row .money-side{text-align:right;font-size:12.5px;color:var(--muted);flex:none}
+.row .money-side .amt{color:var(--ink);font-weight:600;font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;margin-top:3px}
+.chip.ok{background:var(--acc-wash);color:#6C00B8}
+.chip.warn{background:#F6E7C8;color:#7A5A12}
+.chev{color:var(--faint);flex:none}
+
+/* ---------- up next rail ---------- */
+.rail{display:flex;flex-direction:column;gap:10px}
+.task{
+  display:flex;align-items:center;gap:15px;background:var(--card);border:1px solid var(--line-soft);
+  border-radius:18px;padding:16px 18px;text-decoration:none;color:inherit;
+  transition:border-color .15s ease,transform .15s ease;box-shadow:0 2px 10px rgba(33,30,24,.04);
+}
+.task:hover{border-color:var(--line);transform:translateY(-1px)}
+.tile{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.tile.purple{background:var(--acc)}
+.tile.neutral{background:var(--card2);border:1px solid var(--line-soft)}
+.tile svg{width:21px;height:21px;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tile.purple svg{stroke:var(--onacc)}
+.tile.neutral svg{stroke:var(--ink2)}
+.task .t{flex:1;min-width:0}
+.task .t b{display:block;font-size:15px;font-weight:600}
+.task .t span{font-size:13px;color:var(--muted)}
+.numbers-link{
+  display:flex;align-items:center;justify-content:center;gap:7px;margin-top:6px;
+  color:var(--ink2);font-size:13.5px;font-weight:600;text-decoration:none;padding:10px;
+  border-radius:12px;transition:background .15s ease;
+}
+.numbers-link:hover{background:var(--card2)}
+.quiet{margin-top:18px;border-top:1px solid var(--line-soft);padding-top:16px;color:var(--faint);font-size:12.5px;text-align:center}
+
+@media (max-width:1060px){
+  .grid{grid-template-columns:1fr}
+  .money .amount{font-size:76px}
+  .main{padding:26px 24px 48px}
+}
+@media (max-width:720px){
+  .side{display:none}
+  .money-inner{flex-direction:column;align-items:flex-start}
+  .money{padding:26px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<svg class="topo-page" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1400 900" aria-hidden="true">
+  <g fill="none" stroke="#DBD3C2" stroke-width="1" opacity=".55">
+    <path d="M-50 120 C 250 60, 480 200, 760 150 S 1250 40, 1460 130"/>
+    <path d="M-50 190 C 230 130, 500 270, 780 215 S 1240 110, 1460 200"/>
+    <path d="M-50 420 C 300 340, 560 500, 860 430 S 1280 330, 1460 420"/>
+    <path d="M-50 500 C 280 420, 580 580, 880 505 S 1300 410, 1460 500"/>
+    <path d="M-50 760 C 320 690, 600 840, 900 770 S 1300 670, 1460 760"/>
+  </g>
+</svg>
+
+<div class="app">
+  <aside class="side">
+    <div class="wordmark">CAKE</div>
+    <div class="handle">@bobbi</div>
+    <nav class="nav" aria-label="Main">
+      <a class="active" href="#" aria-current="page">
+        <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg>
+        HOME
+      </a>
+      <a href="#"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>SCHEDULE</a>
+      <a href="#">
+        <span class="badge">3</span>
+        <svg viewBox="0 0 24 24"><path d="M3 8.5 12 3l9 5.5v9L12 21l-9-4.5z" opacity="0"/><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M3.5 12h5l1.5 2.5h4L15.5 12h5"/></svg>
+        REQUESTS
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c.6-3 2.8-4.5 5.5-4.5s4.9 1.5 5.5 4.5"/><circle cx="17" cy="9.5" r="2.4"/><path d="M15.7 14.7c2.6.1 4.3 1.5 4.8 4.3"/></svg>
+        PEOPLE
+      </a>
+    </nav>
+    <div class="spacer"></div>
+    <div class="avatar" aria-label="Bobbi">B</div>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <div>
+        <h1>YO, BOBBI</h1>
+        <div class="date">Saturday, July 18</div>
+      </div>
+      <div class="addwrap">
+        <button class="new-btn" id="addBtn" aria-haspopup="true" aria-expanded="false" aria-controls="addMenu">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add to calendar
+        </button>
+        <div class="menu" id="addMenu" role="menu" aria-label="Add to your calendar">
+          <h3>ADD TO YOUR CALENDAR</h3>
+          <button class="opt" role="menuitem">
+            <span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg></span>
+            <span><b>New appointment</b><span>Book a session into your calendar</span></span>
+          </button>
+          <button class="opt" role="menuitem">
+            <span class="ic"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15v10.5h-8l-4 3v-3h-3z"/><path d="M8.5 10.5h7M8.5 13.2h4.5"/></svg></span>
+            <span><b>New consultation</b><span>Quick consult before a piece</span></span>
+          </button>
+          <button class="opt" role="menuitem">
+            <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+            <span><b>Block time off</b><span>Mark yourself unavailable</span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <section class="money" aria-label="This week on the books">
+        <svg class="topo" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1100 300" aria-hidden="true">
+          <g fill="none" stroke="#2A261D" stroke-width="1.4">
+            <path d="M-20 60 C 200 20, 420 120, 640 80 S 980 10, 1120 70"/>
+            <path d="M-20 110 C 220 70, 440 175, 660 130 S 990 60, 1120 120"/>
+            <path d="M-20 170 C 240 120, 470 230, 690 185 S 1000 115, 1120 175"/>
+            <path d="M-20 235 C 250 185, 480 290, 700 245 S 1010 180, 1120 240"/>
+          </g>
+          <path d="M-20 140 C 240 95, 460 205, 680 158 S 995 88, 1120 148" fill="none" stroke="#0C0B08" stroke-width="26" opacity=".8"/>
+        </svg>
+        <div class="money-inner">
+          <div>
+            <div class="label">THIS WEEK</div>
+            <div class="amount" id="amt" data-target="1240">$1,240</div>
+            <div class="sub">deposits collected, you keep every cent</div>
+          </div>
+          <div class="stats">
+            <div class="stat"><div class="n">0</div><div class="l">SUNDAYS LOST</div></div>
+            <div class="stat"><div class="n">0</div><div class="l">NO-SHOWS</div></div>
+            <div class="stat"><div class="n">7</div><div class="l">BOOKED</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-label="Your day">
+        <div class="section-h">
+          <h2>TODAY</h2><span class="when">Sat, Jul 18</span><span class="rule"></span>
+        </div>
+        <div class="dayoff">A day off. The chair gets a rest too.</div>
+
+        <div class="section-h" style="margin-top:26px">
+          <h2>NEXT IN THE CHAIR</h2><span class="rule"></span>
+        </div>
+        <div class="sess">
+          <a class="row" href="#">
+            <div class="pfp">BS</div>
+            <div class="who">
+              <b>Bobbi Stalnaker</b>
+              <span>Mon, Jul 20 · 12 to 3 PM</span>
+            </div>
+            <div class="money-side">
+              <div class="amt">$100 deposit</div>
+              <span class="chip ok">Deposit received</span>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+          </a>
+          <a class="row" href="#">
+            <div class="pfp art">MW</div>
+            <div class="who">
+              <b>Micah Walker</b>
+              <span>Wed, Jul 22 · 11 AM to 2 PM · arm · 7 to 9 inches · bold</span>
+            </div>
+            <div class="money-side">
+              <div class="amt">$100 deposit</div>
+              <span class="chip ok">Deposit received</span>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+          </a>
+          <a class="row" href="#">
+            <div class="pfp">SC</div>
+            <div class="who">
+              <b>Sophie Corbett</b>
+              <span>Fri, Jul 24 · 12 to 3 PM</span>
+            </div>
+            <div class="money-side">
+              <div class="amt">$100 deposit</div>
+              <span class="chip warn">Length unconfirmed</span>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+          </a>
+        </div>
+      </section>
+
+      <aside class="rail" aria-label="Up next">
+        <div class="section-h">
+          <h2>UP NEXT</h2><span class="rule"></span>
+        </div>
+        <a class="task" href="#">
+          <div class="tile purple">
+            <svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M3.5 12h5l1.5 2.5h4L15.5 12h5"/></svg>
+          </div>
+          <div class="t">
+            <b>Review 2 new requests</b>
+            <span>Jordan, Mia · refs attached</span>
+          </div>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+        <a class="task" href="#">
+          <div class="tile neutral">
+            <svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8.5 13.5c1.2-1.4 2.3.9 3.4-.4 1-1.2 2 .8 3.6-.6"/></svg>
+          </div>
+          <div class="t">
+            <b>Consent not signed, Mia</b>
+            <span>Session Tue, 2:00 PM</span>
+          </div>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+        <a class="task" href="#">
+          <div class="tile neutral">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+          </div>
+          <div class="t">
+            <b>Quote waiting on Jake, 5 days</b>
+            <span>A nudge usually brings them back</span>
+          </div>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+        <a class="numbers-link" href="#">
+          See all your numbers
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+        <div class="quiet">Inbox zero. Go draw.</div>
+      </aside>
+
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('addBtn');
+  var menu = document.getElementById('addMenu');
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', function(e){
+    if (menu.classList.contains('open') && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') { menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); btn.focus(); }
+  });
+})();
+(function(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var el = document.getElementById('amt');
+  var target = 1240, start = null, dur = 800;
+  function fmt(n){ return '$' + n.toLocaleString('en-US'); }
+  function step(ts){
+    if(!start) start = ts;
+    var p = Math.min((ts - start)/dur, 1);
+    var eased = 1 - Math.pow(1 - p, 4);
+    el.textContent = fmt(Math.round(target * eased));
+    if(p < 1) requestAnimationFrame(step);
+  }
+  el.textContent = fmt(0);
+  requestAnimationFrame(step);
+})();
+</script>
+</body>
+</html>
