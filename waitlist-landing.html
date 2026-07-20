@@ -153,6 +153,15 @@ h1 .p{color:var(--acc)}
 .boring{margin-top:26px;font-size:15px;color:rgba(242,240,233,.85)}
 .boring b{color:var(--bg)}
 
+/* faq */
+.faq{max-width:720px;margin:0 auto}
+.faq details{background:var(--card);border:1px solid var(--line-soft);border-radius:16px;padding:0;margin-top:10px;overflow:hidden}
+.faq summary{cursor:pointer;list-style:none;padding:18px 22px;font-size:16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--disp);font-size:22px;color:var(--acc);flex:none}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding:0 22px 18px;color:var(--ink2);font-size:14.5px}
+
 /* waitlist */
 .wait{padding:90px 0;text-align:center}
 .wait h2{font-family:var(--disp);font-size:clamp(44px,6vw,84px);line-height:.92;font-weight:400}
@@ -312,6 +321,36 @@ footer .logo{font-size:24px}
       <div class="prom"><b>Leave whenever you want.</b><p>Export everything: clients, history, photos. It's your business. We just work here.</p></div>
     </div>
     <p class="boring">So how do we make money? <b>The boring way: a flat subscription every artist can afford, at every stage.</b> Thrilling, we know. But it means your $10,000 month is your $10,000 month, and our rent stays the same.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:30px">
+  <h2 style="text-align:center">FAIR QUESTIONS</h2>
+  <div class="faq">
+    <details>
+      <summary>When do I actually get in?</summary>
+      <p>We're onboarding the founding 50 in small waves, in waitlist order. The earlier you claim a seat, the earlier your page goes live. You'll get one email when it's your turn, and we set your page up with you.</p>
+    </details>
+    <details>
+      <summary>Do my clients have to download anything?</summary>
+      <p>Nope. Your clients tap one link, and everything happens right in their browser: the request, the deposit, the consent form. No app, no account, no "what's your login again?"</p>
+    </details>
+    <details>
+      <summary>How do I get paid?</summary>
+      <p>Venmo, Zelle, or Cash App today, card coming soon. Deposits go straight from your client to you. Cake never touches your money and takes no cut.</p>
+    </details>
+    <details>
+      <summary>I already have bookings. Do I have to start over?</summary>
+      <p>No retyping, promise. Connect your Google Calendar and your booked work comes in with you. You confirm what's a session, and your schedule shows up already full.</p>
+    </details>
+    <details>
+      <summary>What does a founding seat actually get me?</summary>
+      <p>Everything Cake does, your first 30 days free, the founding rate locked in for life, and a real say in what we build next. The first 15 seats work directly with the founders.</p>
+    </details>
+    <details>
+      <summary>What happens after the 50 seats fill?</summary>
+      <p>The waitlist stays open, but the founding rate and the founding perks are for the first 50 only. That's the whole point of claiming early.</p>
+    </details>
   </div>
 </section>
 
