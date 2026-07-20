@@ -40,6 +40,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0
 .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:64px 0 80px}
 h1{font-family:var(--disp);font-size:clamp(42px,5.2vw,72px);line-height:.94;font-weight:400;letter-spacing:.005em}
 h1 .p{color:var(--acc)}
+.free-flag{display:inline-block;background:var(--acc);color:var(--onacc);border-radius:12px;padding:10px 18px;font-family:var(--disp);font-size:21px;letter-spacing:.1em;margin-bottom:22px;transform:rotate(-1.2deg)}
 .hero .under{width:220px;height:16px;margin:18px 0 4px}
 .hero .under path{stroke:var(--acc);stroke-width:5;fill:none;stroke-linecap:round}
 .hero .lead{font-size:19px;color:var(--ink2);margin-top:16px;max-width:52ch}
@@ -208,6 +209,7 @@ footer .logo{font-size:24px}
 
 <section class="hero">
   <div>
+    <div class="free-flag">FREE FOR YOUR FIRST 30 DAYS</div>
     <h1>GET BACK TO BEING<br>A TATTOO ARTIST,<br><span class="p">NOT A TATTOO ADMIN.</span></h1>
     <svg class="under" viewBox="0 0 220 16"><path d="M6 11 C 60 5, 140 13, 214 7"/></svg>
     <p class="lead"><b>Cake is a booking platform for tattoo artists. It books your clients while you tattoo.</b> It answers the requests, collects the deposit, gets the consent form signed, and puts the session on your calendar. The 30 DMs waiting after a full day in the chair, the deposit you asked for twice, the reference photos buried three apps deep: handled.</p>
@@ -218,7 +220,7 @@ footer .logo{font-size:24px}
         <input type="text" placeholder="@your.instagram (optional)" aria-label="Instagram handle, optional">
       </div>
       <button class="btn" type="submit">CLAIM A FOUNDING SEAT</button>
-      <div class="cta-note" style="max-width:none;margin-top:10px"><b>Your first 30 days are free.</b> Your card goes on file but nothing is charged for 30 days, and canceling takes one message. If it's not for you, walk away and keep everything you made. 50 founding seats at $19 a month, locked in for life.</div>
+      <div class="cta-note" style="max-width:none;margin-top:10px;font-size:14.5px;color:var(--ink)"><b>Nothing is charged for 30 days.</b> Card on file, cancel with one message. If it's not for you, walk away and keep everything you made. 50 founding seats at $19 a month, locked in for life.</div>
     </form>
   </div>
 
@@ -352,6 +354,6 @@ footer .logo{font-size:24px}
 </footer>
 
 </div>
-<div class="sticky-cta"><a href="#waitlist">CLAIM A FOUNDING SEAT</a></div>
+<div class="sticky-cta"><a href="#waitlist">CLAIM A FOUNDING SEAT · FREE FOR 30 DAYS</a></div>
 </body>
 </html>
