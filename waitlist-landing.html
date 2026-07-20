@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cake · Your second job just quit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F0E9; --bg2:#EBE5D7; --card:#FCFAF4; --card2:#F3EEE2;
+  --line:#DBD3C2; --line-soft:#E8E1D1;
+  --ink:#16140F; --ink2:#4A463D; --muted:#6E695C; --faint:#9C9484;
+  --acc:#9D00FF; --acc-wash:rgba(157,0,255,.13); --onacc:#F2F0E9;
+  --shadow:0 12px 32px rgba(33,30,24,.10);
+  --disp:'Bebas Neue','Oswald',Impact,sans-serif;
+  --sans:'Inter',-apple-system,system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+
+/* nav */
+nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.logo{font-family:var(--disp);font-size:34px;color:var(--acc);letter-spacing:.02em}
+.nav-r{display:flex;gap:18px;align-items:center}
+.nav-r a{text-decoration:none;color:var(--ink2);font-size:14.5px;font-weight:600}
+.nav-btn{background:var(--acc-wash);color:#6C00B8;border-radius:999px;padding:10px 20px;font-size:13px;font-weight:700;letter-spacing:.06em}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:64px 0 80px}
+h1{font-family:var(--disp);font-size:clamp(56px,7.5vw,104px);line-height:.9;font-weight:400;letter-spacing:.005em}
+h1 .p{color:var(--acc)}
+.hero .under{width:220px;height:16px;margin:18px 0 4px}
+.hero .under path{stroke:var(--acc);stroke-width:5;fill:none;stroke-linecap:round}
+.hero .lead{font-size:19px;color:var(--ink2);margin-top:16px;max-width:52ch}
+.hero .lead b{color:var(--ink);font-weight:700}
+.hero .how{font-size:15.5px;color:var(--muted);margin-top:14px;max-width:52ch}
+.cta-row{display:flex;gap:18px;align-items:center;margin-top:30px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--acc);color:var(--onacc);border:none;border-radius:16px;padding:18px 34px;font-family:var(--disp);font-size:20px;letter-spacing:.08em;cursor:pointer;text-decoration:none;transition:transform .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.cta-note{font-size:13.5px;color:var(--muted);max-width:26ch}
+.cta-note b{color:var(--ink)}
+
+/* floating cards */
+.stack{position:relative;min-height:560px}
+.fc{position:absolute;background:var(--card);border:1px solid var(--line-soft);border-radius:20px;box-shadow:var(--shadow);padding:20px}
+.fc1{width:300px;top:0;left:6%;transform:rotate(-2deg)}
+.fc2{width:250px;top:245px;left:38%;transform:rotate(1.6deg);z-index:2}
+.fc3{width:236px;top:462px;left:16%;transform:rotate(-1deg);z-index:3}
+.fc .who{display:flex;gap:10px;align-items:center}
+.fc .pfp{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#E4DCC8,#CFC3A8)}
+.fc .nm{font-family:var(--disp);font-size:19px;line-height:1}
+.fc .hd{font-size:11.5px;color:var(--muted)}
+.fc .meta{font-size:13.5px;color:var(--ink2);margin-top:10px}
+.pill{display:inline-block;background:var(--acc-wash);color:#6C00B8;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.05em;margin-top:10px}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.mini-grid div{aspect-ratio:1;border-radius:9px;background:var(--card2);border:1px solid var(--line-soft);display:flex;align-items:center;justify-content:center;font-size:20px}
+.fc-btn{background:var(--acc);color:var(--onacc);border-radius:12px;text-align:center;font-family:var(--disp);font-size:15px;letter-spacing:.08em;padding:11px;margin-top:13px}
+.k{font-size:10.5px;font-weight:800;letter-spacing:.16em;color:var(--muted)}
+.fc2 .idea{font-size:14.5px;color:var(--ink);margin:8px 0 4px;font-weight:600}
+.fc2 .sub{font-size:12.5px;color:var(--muted)}
+.row2{display:flex;gap:8px;margin-top:12px}
+.ap{flex:1;background:var(--acc);color:var(--onacc);border-radius:10px;text-align:center;font-size:12.5px;font-weight:700;padding:9px}
+.ps{flex:.7;background:var(--card2);color:var(--ink2);border-radius:10px;text-align:center;font-size:12.5px;font-weight:700;padding:9px}
+.fc3 .bk{font-family:var(--disp);font-size:20px}
+.fc3 .dt{font-size:13px;color:var(--ink2);margin-top:2px}
+.fc3 .st{font-size:12px;color:var(--muted);margin-top:2px}
+.slice{width:40px;height:40px;background:var(--acc);border-radius:9px;transform:rotate(-6deg);display:flex;align-items:center;justify-content:center;color:var(--onacc);font-family:var(--disp);font-size:13px;line-height:.9;text-align:center;flex:none}
+.arrow{position:absolute;stroke:var(--faint);stroke-width:2;fill:none}
+
+/* wall of pains */
+.section{padding:76px 0}
+.section h2{font-family:var(--disp);font-size:clamp(36px,4.6vw,58px);line-height:.94;font-weight:400}
+.section .s-sub{color:var(--ink2);margin-top:12px;max-width:62ch;font-size:17px}
+.wall{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.note{background:var(--card);border:1px solid var(--line-soft);border-radius:16px;padding:22px;box-shadow:0 3px 14px rgba(33,30,24,.05);font-size:17px;font-weight:600;line-height:1.45;color:var(--ink)}
+.note span{display:block;font-size:12px;font-weight:600;color:var(--faint);margin-top:12px}
+.note:nth-child(odd){transform:rotate(-.7deg)}
+.note:nth-child(even){transform:rotate(.7deg)}
+.wall-cap{margin-top:26px;color:var(--muted);font-size:14.5px}
+
+/* how it works */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.stp{background:var(--card);border:1px solid var(--line-soft);border-radius:18px;padding:24px 22px}
+.stp .n{font-family:var(--disp);font-size:38px;color:var(--acc);line-height:1}
+.stp h3{font-size:16.5px;font-weight:700;margin-top:10px}
+.stp p{font-size:14px;color:var(--muted);margin-top:6px}
+
+/* promises */
+.dark{background:var(--ink);color:var(--bg);border-radius:28px;padding:56px;margin-top:20px}
+.dark h2{font-family:var(--disp);font-size:clamp(34px,4.2vw,54px);font-weight:400;line-height:.95}
+.dark .s-sub{color:rgba(242,240,233,.72);margin-top:12px;max-width:60ch}
+.proms{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:34px}
+.prom{border:1px solid rgba(242,240,233,.16);border-radius:16px;padding:20px 22px}
+.prom b{font-size:16.5px;display:block}
+.prom p{font-size:14px;color:rgba(242,240,233,.66);margin-top:5px}
+.boring{margin-top:26px;font-size:15px;color:rgba(242,240,233,.85)}
+.boring b{color:var(--bg)}
+
+/* waitlist */
+.wait{padding:90px 0;text-align:center}
+.wait h2{font-family:var(--disp);font-size:clamp(44px,6vw,84px);line-height:.92;font-weight:400}
+.wait h2 .p{color:var(--acc)}
+.wait .s-sub{margin:16px auto 0;max-width:56ch;color:var(--ink2);font-size:17.5px}
+.wait .s-sub b{color:var(--ink)}
+.form{display:flex;gap:10px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.form input{
+  width:min(360px,90vw);padding:17px 20px;border-radius:16px;border:1.5px solid var(--line);
+  background:var(--card);font-family:var(--sans);font-size:15.5px;color:var(--ink);
+}
+.form input:focus{outline:none;border-color:var(--acc)}
+.form input::placeholder{color:var(--muted)}
+.tiny{margin-top:14px;font-size:13px;color:var(--faint)}
+
+/* origin */
+.origin{background:var(--card);border:1px solid var(--line-soft);border-radius:24px;padding:44px 48px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.origin .slice{width:64px;height:64px;font-size:19px;border-radius:14px}
+.origin p{font-size:17px;color:var(--ink2);max-width:72ch}
+.origin p b{color:var(--ink)}
+
+footer{padding:44px 0 60px;display:flex;justify-content:space-between;align-items:center;color:var(--faint);font-size:13px}
+footer .logo{font-size:24px}
+
+@media (max-width:960px){
+  .hero{grid-template-columns:1fr;padding-top:36px}
+  .stack{min-height:600px;max-width:480px;margin:0 auto;width:100%}
+  .wall{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .proms{grid-template-columns:1fr}
+  .dark{padding:36px 28px}
+  .origin{grid-template-columns:1fr;text-align:left}
+}
+@media (max-width:600px){
+  .wall{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .fc1{left:0}.fc2{left:28%}.fc3{left:6%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="logo">CAKE</div>
+  <div class="nav-r">
+    <a href="#">Artist sign in</a>
+    <a class="nav-btn" href="#waitlist">JOIN THE WAITLIST</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>YOUR SECOND JOB<br><span class="p">JUST QUIT.</span></h1>
+    <svg class="under" viewBox="0 0 220 16"><path d="M6 11 C 60 5, 140 13, 214 7"/></svg>
+    <p class="lead">The 30 DMs waiting after an eight hour session. The deposit you asked for twice. The reference photos buried three apps deep. <b>Cake runs the whole booking for you, so you get to just be a tattooer again.</b></p>
+    <p class="how">A client sends their idea with references, size, and placement attached. You approve it. They pick a time, pay the deposit, sign the consent form. Booked. Your clients never download anything, and the whole thread lives in one place.</p>
+    <div class="cta-row">
+      <a class="btn" href="#waitlist">JOIN THE WAITLIST</a>
+      <div class="cta-note"><b>50 founding seats.</b> $19 a month, locked for life.</div>
+    </div>
+  </div>
+
+  <div class="stack" aria-hidden="true">
+    <svg class="arrow" style="top:200px;left:52%;width:60px;height:60px" viewBox="0 0 60 60"><path d="M8 6 C 30 18, 44 30, 50 50"/><path d="M42 44 L 50 50 L 52 40"/></svg>
+    <svg class="arrow" style="top:430px;left:30%;width:50px;height:50px" viewBox="0 0 60 60"><path d="M50 6 C 34 20, 20 32, 12 50"/><path d="M10 40 L 12 50 L 22 46"/></svg>
+    <div class="fc fc1">
+      <div class="who">
+        <div class="pfp"></div>
+        <div><div class="nm">BOBBI STALNAKER</div><div class="hd">cake.ink/@bobbi</div></div>
+      </div>
+      <div class="meta">Fine line and botanical · Seattle, WA</div>
+      <span class="pill">BOOKS OPEN</span>
+      <div class="mini-grid"><div>🌿</div><div>🦋</div><div>👁</div></div>
+      <div class="fc-btn">REQUEST A BOOKING</div>
+    </div>
+    <div class="fc fc2">
+      <div class="k">NEW REQUEST</div>
+      <div class="idea">Maya R. · Fine line fern, inner forearm. Around $250.</div>
+      <div class="sub">3 references attached · size and placement included</div>
+      <div class="row2"><div class="ap">Approve</div><div class="ps">Pass</div></div>
+    </div>
+    <div class="fc fc3">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="slice">CA<br>KE</div>
+        <div>
+          <div class="bk">BOOKED</div>
+          <div class="dt">Fri Jul 24 · 1:00 PM</div>
+          <div class="st">Deposit paid · Consent signed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>SOUND FAMILIAR?</h2>
+  <p class="s-sub">Before we wrote a line of code, we sat down with eleven working artists and asked them what booking actually feels like. This is what they told us.</p>
+  <div class="wall">
+    <div class="note">"It took 23 emails to book one tattoo."<span>email booking, year 3</span></div>
+    <div class="note">"My replies land in spam. My clients think I ghosted them."<span>books through email</span></div>
+    <div class="note">"Six tabs open, just to run my books."<span>two subscriptions deep</span></div>
+    <div class="note">"I'm copying and pasting out of my DMs all day long."<span>shop owner, 40 sessions a month</span></div>
+    <div class="note">"I do my emails at the bar after my shift. Every night."<span>booked out, burnt out</span></div>
+    <div class="note">"Some months I lose more than a grand just to slow replies."<span>her own math</span></div>
+  </div>
+  <p class="wall-cap">Every line on this wall came from a real artist in a real interview. The whole product exists to erase it.</p>
+</section>
+
+<section class="section" style="padding-top:20px">
+  <h2>THE WHOLE BOOKING, HANDLED</h2>
+  <p class="s-sub">One link in your bio. Everything after that happens in one place, with your yes in the middle of it.</p>
+  <div class="steps">
+    <div class="stp"><div class="n">1</div><h3>They send the idea</h3><p>References, size, and placement attached up front. No more guessing what "kind of big" means.</p></div>
+    <div class="stp"><div class="n">2</div><h3>You say yes</h3><p>Nothing books without your approval. Your books, your rules, your prices.</p></div>
+    <div class="stp"><div class="n">3</div><h3>They lock it in</h3><p>Time picked, deposit paid, consent signed, all from one link that opens right in their browser.</p></div>
+    <div class="stp"><div class="n">4</div><h3>You hear the cha-ching</h3><p>The deposit goes straight to you. Venmo, Zelle, Cash App, or card. Cake never touches your money.</p></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:26px">
+  <div class="dark">
+    <h2>WHOSE SIDE WE'RE ON</h2>
+    <p class="s-sub">The other platforms take a cut of every booking and charge your clients a fee on top. Artists told us exactly what they think of that. We built the opposite.</p>
+    <div class="proms">
+      <div class="prom"><b>No cut of your bookings. Ever.</b><p>Not 10 percent, not 1 percent. Your money moves straight from your client to you.</p></div>
+      <div class="prom"><b>No chatbots. Ever.</b><p>Automations can send the messages you approve, but your clients always reach a human: you.</p></div>
+      <div class="prom"><b>Your name is yours, free.</b><p>cake.ink/@you, on every plan, forever. We will never charge you for your own name.</p></div>
+      <div class="prom"><b>Leave whenever you want.</b><p>Export everything: clients, history, photos. It's your business. We just work here.</p></div>
+    </div>
+    <p class="boring">So how do we make money? <b>The boring way: a flat subscription.</b> We'd rather earn a flat $39 every month than take a slice of your work.</p>
+  </div>
+</section>
+
+<section class="wait" id="waitlist">
+  <h2>BE FIRST<br><span class="p">IN THE CHAIR.</span></h2>
+  <p class="s-sub">We're opening with <b>50 founding artists</b>. Founding seats are <b>$19 a month, locked for life</b>, with everything included and a direct line to the people building it. Your first 30 days are on us, and your booking page goes live the day you're in.</p>
+  <form class="form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='SAVED. TALK SOON.'">
+    <input type="email" required placeholder="you@youremail.com" aria-label="Email address">
+    <button class="btn" type="submit">SAVE MY SPOT</button>
+  </form>
+  <p class="tiny">One email when your seat opens. Nothing else lands in your inbox.</p>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="origin">
+    <div class="slice">CA<br>KE</div>
+    <p><b>Cake started at a kitchen table.</b> Micah watched her wife Bobbi finish eight hours of tattooing, sit down on the couch, and start the second job: the emails, the deposits, the lost reference photos. So she started building the thing that would let Bobbi stop. Eleven artist interviews later, it's almost ready for you too.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">CAKE</div>
+  <div>Built with working artists · Seattle, WA</div>
+</footer>
+
+</div>
+</body>
+</html>
