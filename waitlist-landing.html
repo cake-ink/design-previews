@@ -91,6 +91,22 @@ h1 .p{color:var(--acc)}
 .stp h3{font-size:16.5px;font-weight:700;margin-top:10px}
 .stp p{font-size:14px;color:var(--muted);margin-top:6px}
 
+/* why */
+.why{background:var(--card);border:1px solid var(--line-soft);border-radius:24px;padding:44px 48px;margin-top:26px}
+.why h2{font-family:var(--disp);font-size:clamp(32px,4vw,50px);font-weight:400;line-height:.95}
+.why .s-sub{margin-top:10px}
+.vs{margin-top:28px;display:flex;flex-direction:column;gap:0}
+.vs .vrow{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.vs .vrow:last-child{border-bottom:none}
+.vs .them{color:var(--muted);font-size:15px}
+.vs .them::before{content:"OTHER PLATFORMS";display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--faint);margin-bottom:4px}
+.vs .us{color:var(--ink);font-size:15px;font-weight:600}
+.vs .us::before{content:"CAKE";display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--acc);margin-bottom:4px}
+.vs .vrow:not(:first-child) .them::before,.vs .vrow:not(:first-child) .us::before{display:none}
+.recover{margin-top:24px;font-size:16px;color:var(--ink2);max-width:74ch}
+.recover b{color:var(--ink)}
+@media (max-width:700px){.why{padding:30px 24px}.vs .vrow{grid-template-columns:1fr;gap:10px}.vs .vrow .them::before,.vs .vrow .us::before{display:block !important}}
+
 /* promises */
 .dark{background:var(--ink);color:var(--bg);border-radius:28px;padding:56px;margin-top:20px}
 .dark h2{font-family:var(--disp);font-size:clamp(34px,4.2vw,54px);font-weight:400;line-height:.95}
@@ -220,6 +236,28 @@ footer .logo{font-size:24px}
     <div class="stp"><div class="n">2</div><h3>You say yes</h3><p>Nothing books without your approval. Your books, your rules, your prices.</p></div>
     <div class="stp"><div class="n">3</div><h3>They lock it in</h3><p>Time picked, deposit paid, consent signed, all from one link that opens right in their browser.</p></div>
     <div class="stp"><div class="n">4</div><h3>You hear the cha-ching</h3><p>The deposit goes straight to you. Venmo, Zelle, Cash App, or card. Cake never touches your money.</p></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:26px">
+  <div class="why">
+    <h2>BUILT FOR HOW TATTOOING ACTUALLY WORKS</h2>
+    <p class="s-sub">Almost every booking platform out there was built for haircuts, gyms, and coffee chats. They think a tattoo is a 30 minute time grab on a calendar. You know it's a request, a conversation, a deposit, a consent form, and weeks of healing. Cake is built around that flow, because it was built inside it.</p>
+    <div class="vs">
+      <div class="vrow">
+        <div class="them">Anyone grabs any open time on your calendar, sight unseen.</div>
+        <div class="us">Nothing books without your yes. You see the idea, the references, and the placement first.</div>
+      </div>
+      <div class="vrow">
+        <div class="them">Reference photos scattered across DMs, email, and texts.</div>
+        <div class="us">References, size, and placement attached to every request from the start.</div>
+      </div>
+      <div class="vrow">
+        <div class="them">The booking ends when the time is picked.</div>
+        <div class="us">Deposit collected and consent signed before anyone sits down, then aftercare and the healed check-in after.</div>
+      </div>
+    </div>
+    <p class="recover"><b>And it goes after the money you're currently losing.</b> The client who ghosted after you quoted the price. The deposit that never got paid. Cake follows up with the messages you approve, in your own words, and brings bookings back that would have died quietly in your inbox. Artists told us slow replies alone were costing them four figures a month. That's the money this recovers.</p>
   </div>
 </section>
 
