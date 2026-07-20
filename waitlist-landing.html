@@ -153,6 +153,11 @@ h1 .p{color:var(--acc)}
 .boring{margin-top:26px;font-size:15px;color:rgba(242,240,233,.85)}
 .boring b{color:var(--bg)}
 
+.thanks{background:var(--card);border:1px solid var(--line-soft);border-radius:18px;padding:26px;text-align:center}
+.thanks .th-big{font-family:var(--disp);font-size:30px;letter-spacing:.04em}
+.thanks p{color:var(--ink2);font-size:14.5px;margin:8px auto 16px;max-width:38ch}
+.thanks .btn{font-size:16px;padding:13px 26px}
+
 /* faq */
 .faq{max-width:720px;margin:0 auto}
 .faq details{background:var(--card);border:1px solid var(--line-soft);border-radius:16px;padding:0;margin-top:10px;overflow:hidden}
@@ -222,7 +227,7 @@ footer .logo{font-size:24px}
     <h1>GET BACK TO BEING<br>A TATTOO ARTIST,<br><span class="p">NOT A TATTOO ADMIN.</span></h1>
     <svg class="under" viewBox="0 0 220 16"><path d="M6 11 C 60 5, 140 13, 214 7"/></svg>
     <p class="lead"><b>Cake is a booking platform for tattoo artists. It books your clients while you tattoo.</b> Requests answered, deposits collected, consent signed, sessions on the books. The DM pile waiting after a full day in the chair? Handled.</p>
-    <form class="hero-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='SEAT SAVED. TALK SOON.'">
+    <form class="hero-form" onsubmit="showThanks(event, this)">
       <div class="hf-row">
         <input type="email" required placeholder="you@youremail.com" aria-label="Email address">
         <input type="text" placeholder="@your.instagram (optional)" aria-label="Instagram handle, optional">
@@ -370,7 +375,7 @@ footer .logo{font-size:24px}
     </ul>
     <div class="after">Nothing charged for 30 days; cancel before then and pay nothing. We built this seat to be a no-brainer.</div>
   </div>
-  <form class="form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='SEAT SAVED. TALK SOON.'">
+  <form class="form" onsubmit="showThanks(event, this)">
     <input type="email" required placeholder="you@youremail.com" aria-label="Email address">
     <input type="text" placeholder="@your.instagram (optional)" aria-label="Instagram handle, optional">
     <button class="btn" type="submit">SAVE MY SEAT</button>
@@ -391,6 +396,23 @@ footer .logo{font-size:24px}
 </footer>
 
 </div>
+<script>
+function showThanks(e, form){
+  e.preventDefault();
+  var wrap = document.createElement('div');
+  wrap.className = 'thanks';
+  wrap.innerHTML = '<div class="th-big">YOU\'RE IN. TALK SOON.</div>' +
+    '<p>Know two artists drowning in their DMs? Send them this page. Seats go in waitlist order.</p>' +
+    '<button class="btn" type="button">COPY THE LINK</button>';
+  wrap.querySelector('button').addEventListener('click', function(){
+    var b = this;
+    (navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject())
+      .then(function(){ b.textContent = 'COPIED. GO BE A HERO.'; })
+      .catch(function(){ b.textContent = location.host + location.pathname; });
+  });
+  form.replaceWith(wrap);
+}
+</script>
 <div class="sticky-cta"><a href="#waitlist">CLAIM A FOUNDING SEAT · FREE FOR 30 DAYS</a></div>
 </body>
 </html>
