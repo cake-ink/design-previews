@@ -130,14 +130,12 @@ h1 .p{color:var(--acc)}
 .why{background:var(--card);border:1px solid var(--line-soft);border-radius:24px;padding:44px 48px;margin-top:26px}
 .why h2{font-family:var(--disp);font-size:clamp(32px,4vw,50px);font-weight:400;line-height:.95}
 .why .s-sub{margin-top:10px}
-.vs{margin-top:28px;display:flex;flex-direction:column;gap:0}
-.vs .vrow{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
-.vs .vrow:last-child{border-bottom:none}
-.vs .them{color:var(--muted);font-size:17px}
-.vs .them::before{content:"OTHER PLATFORMS";display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--faint);margin-bottom:4px}
-.vs .us{color:var(--ink);font-size:19px;font-weight:700}
-.vs .us::before{content:"CAKE";display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--acc);margin-bottom:4px}
-.vs .vrow:not(:first-child) .them::before,.vs .vrow:not(:first-child) .us::before{display:none}
+.vs{margin-top:28px;display:flex;flex-direction:column;gap:14px}
+.vs .vrow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vs .them{background:var(--card2);border-radius:16px;padding:18px 20px;color:var(--ink2);font-size:18px;font-weight:600;line-height:1.4}
+.vs .them::before{content:"OTHER PLATFORMS";display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+.vs .us{background:var(--acc-wash);border-radius:16px;padding:18px 20px;color:var(--ink);font-size:19px;font-weight:700;line-height:1.4}
+.vs .us::before{content:"CAKE";display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--acc);margin-bottom:6px}
 .recover{margin-top:24px;font-size:16px;color:var(--ink2);max-width:74ch}
 .recover b{color:var(--ink)}
 @media (max-width:700px){.why{padding:30px 24px}.vs .vrow{grid-template-columns:1fr;gap:10px}.vs .vrow .them::before,.vs .vrow .us::before{display:block !important}}
