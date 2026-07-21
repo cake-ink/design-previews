@@ -116,7 +116,8 @@ h1 .p{color:var(--acc)}
 .note span{display:block;font-size:12px;font-weight:600;color:var(--faint);margin-top:12px}
 .note span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);margin-right:7px;vertical-align:0px}
 .wall .note:first-child{grid-column:span 2;font-size:26px;line-height:1.35;padding:30px 34px;display:flex;flex-direction:column;justify-content:center}
-@media (max-width:600px){.wall .note:first-child{grid-column:auto;font-size:21px}}
+.wall .note:last-child{grid-column:1/-1;font-size:20px;line-height:1.4;padding:26px 34px}
+@media (max-width:600px){.wall .note:first-child,.wall .note:last-child{grid-column:auto;font-size:21px}}
 .wall-cap{margin-top:26px;color:var(--muted);font-size:14.5px}
 
 /* how it works */
