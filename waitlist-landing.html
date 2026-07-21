@@ -114,6 +114,7 @@ h1 .p{color:var(--acc)}
 .wall{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
 .note{background:var(--card);border:1px solid var(--line-soft);border-radius:12px;padding:22px;box-shadow:0 3px 14px rgba(64,64,64,.05);font-size:17px;font-weight:600;line-height:1.45;color:var(--ink)}
 .note span{display:block;font-size:12px;font-weight:600;color:var(--faint);margin-top:12px}
+.note span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);margin-right:7px;vertical-align:0px}
 .wall .note:first-child{grid-column:span 2;font-size:26px;line-height:1.35;padding:30px 34px;display:flex;flex-direction:column;justify-content:center}
 @media (max-width:600px){.wall .note:first-child{grid-column:auto;font-size:21px}}
 .wall-cap{margin-top:26px;color:var(--muted);font-size:14.5px}
@@ -133,7 +134,7 @@ h1 .p{color:var(--acc)}
 .vs{margin-top:28px;display:flex;flex-direction:column;gap:14px}
 .vs .vrow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .vs .them{background:var(--card2);border-radius:12px;padding:18px 20px;color:var(--ink2);font-size:18px;font-weight:600;line-height:1.4}
-.vs .them::before{content:"OTHER PLATFORMS";display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+.vs .them::before{content:"OTHER PLATFORMS";display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:#C8482F;margin-bottom:6px}
 .vs .us{background:var(--acc-wash);border-radius:12px;padding:18px 20px;color:var(--ink);font-size:19px;font-weight:700;line-height:1.4}
 .vs .us::before{content:"CAKE";display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--acc);margin-bottom:6px}
 .recover{margin-top:24px;font-size:16px;color:var(--ink2);max-width:74ch}
@@ -316,7 +317,7 @@ footer .logo{font-size:24px}
 <section class="section" style="padding-top:26px">
   <div class="dark">
     <h2>WHOSE SIDE WE'RE ON</h2>
-    <p class="s-sub">A lot of platforms make their money on fees: a cut of your bookings, or surprise costs dropped on your clients at checkout. That trust bill lands on you. We built the opposite.</p>
+    <p class="s-sub">A lot of platforms make their money on fees: a cut of your bookings, or surprise costs dropped on your clients at checkout. <b style="color:#FF9B85">That trust bill lands on you.</b> We built the opposite.</p>
     <div class="proms">
       <div class="prom"><b>Built by a tattoo artist, for tattoo artists.</b><p>Request, approval, deposit, consent, healing: the whole booking flow is shaped around how tattooing actually works, because one of us lives it.</p></div>
       <div class="prom"><b>No cut of your bookings.</b><p>Not 10 percent, not any percent. Your money moves straight from your client to you.</p></div>
