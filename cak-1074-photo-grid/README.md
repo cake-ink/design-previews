@@ -183,20 +183,27 @@ ledger, so it is the first thing after the name. That is a deliberate editorial
 bet — she leads with what she wants to make — but a client may want where, when
 and how much first.
 
-## Wishlist references
+## Wishlist entries
 
-`WL-wishlist.png` — Micah, 2026-10-12: a wishlist entry can carry a reference
-image if she wants one. "If she wants" is the design problem: a real wishlist
-will be part pictures and part words, and the words must not read as pictures
-that failed to load.
+Micah, 2026-10-12, in two steps. First: an entry could carry a reference image.
+Then: **drop the images — a description is enough.** `WT-wishlist.png` is the
+version that stands; `WL-wishlist.png` and `build-wishlist.py` are kept as the
+record of the option that was cut, and should not be built.
 
-So an entry is a tile either way. With a reference it is the reference; without
-one the phrase is set large on paper behind the same inner rule the work tiles
-carry, which reads as flash rather than as a gap — and it carries no caption,
-because the tile is already the words. The no-holes rule applies unchanged, so
-an odd count leads full width.
+An entry is a short want and, optionally, a line saying what she means by it.
+That is the better shape regardless: "Cover-ups" is a category, and what a
+client can act on is *which* cover-ups and how big.
 
-Worth settling before this is built: a reference is very often **someone
-else's tattoo**. On a public page that is an attribution question, not just a
-storage one. The studio copy should say plainly that these are references
-rather than her work, and the public caption may need to say it too.
+The optional half is the usual problem. A description is a second line under
+its want, never a column beside it, so an entry with nothing to add is simply a
+shorter entry — the hairline between entries does the separating either way.
+Three states are rendered: none, all, and mixed.
+
+On the attribution worry I raised against the image version: Micah's answer is
+that an artist adding to her own profile is adding her own work, which settles
+it, and dropping images moots it entirely.
+
+A sample description in the first draft read "three or four sittings".
+`sitting` is on `BANNED_VOCABULARY` beside `slot`. The rail polices shipped
+source rather than an artist's own words, but a design should not model copy
+the product forbids, so it says sessions.

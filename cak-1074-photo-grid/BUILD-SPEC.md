@@ -33,7 +33,7 @@ New patch keys, appended to `ARTIST_PAGE_PATCH_KEYS`:
 
 | Key | Shape | Cap | Notes |
 | --- | --- | --- | --- |
-| `wishlist` | `string[]` | 6 items × 24 chars | mirrors `styles` exactly, including `PROFILE_STYLE_MAX_LENGTH` |
+| `wishlist` | `{ want: string; note?: string \| null }[]` | 6 entries; want 40 chars, note 160 | Micah 2026-10-12: a want plus an optional description. Reference images were considered and cut. `note` is `ONE_LINE`; an entry with a blank `want` is dropped, the way `page_faqs` drops an empty pair |
 | `hourly_cents` | `number \| null` | — | same treatment as `min_price_cents`; rendered with `moneyText` |
 | `deposit_cents` | `number \| null` | — | the amount; the existing `deposit` **policy** stays as the prose beside it |
 | `wont_tattoo` | `string \| null` | 300 | `paragraphText`, like a policy |
