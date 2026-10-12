@@ -182,3 +182,21 @@ Open question in the render: the wishlist panel currently sits above the
 ledger, so it is the first thing after the name. That is a deliberate editorial
 bet — she leads with what she wants to make — but a client may want where, when
 and how much first.
+
+## Wishlist references
+
+`WL-wishlist.png` — Micah, 2026-10-12: a wishlist entry can carry a reference
+image if she wants one. "If she wants" is the design problem: a real wishlist
+will be part pictures and part words, and the words must not read as pictures
+that failed to load.
+
+So an entry is a tile either way. With a reference it is the reference; without
+one the phrase is set large on paper behind the same inner rule the work tiles
+carry, which reads as flash rather than as a gap — and it carries no caption,
+because the tile is already the words. The no-holes rule applies unchanged, so
+an odd count leads full width.
+
+Worth settling before this is built: a reference is very often **someone
+else's tattoo**. On a public page that is an attribution question, not just a
+storage one. The studio copy should say plainly that these are references
+rather than her work, and the public caption may need to say it too.
