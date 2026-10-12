@@ -141,3 +141,44 @@ Playwright resolves from the app checkout and Chromium needs an explicit
 cd src
 python3 build-work.py && node shoot-work.mjs && node check-work.mjs
 ```
+
+## About as a website replacement
+
+`AF-website.png` — direction C carrying A's wishlist panel, extended with what
+an artist's own site has that Cake has no home for. The page grows by a row
+rather than by a redesign, which is the reason the ledger was the right pick;
+the second frame is the same page from someone who filled in almost none of it.
+
+Already on the profile and deliberately not duplicated: **policies and FAQs**
+(`landing.ts:321-324`), the **work grid**, and **books open/closed**.
+
+| New entry | Why a site has it | State in Cake today |
+| --- | --- | --- |
+| **Rates** | the first question every client asks | no price field exists anywhere; only a free-text deposit policy |
+| **Getting there** | address, parking, step-free access | `studio_name`/`studio_address` are stored and go out in reminder emails, but **no public page has ever rendered them** |
+| **Books / booking into** | how far out they are | `books_open` is a binary flag |
+| **Won't tattoo** | scope, saving both sides a wasted request | nothing |
+| **Languages** | a real filter for many clients | nothing |
+| **Aftercare** | a client needs it three weeks later, not once | sent after a session (CAK-586); nowhere to look up |
+| **Licence** | the trust credential a shop site always carries | nothing |
+
+Considered and left out, with reasons:
+
+- **Contact email or phone.** A website has a contact page; Cake deliberately
+  should not. The booking request *is* the channel, and publishing an address
+  invites booking around the product. This is a product decision, not an
+  omission.
+- **Flash / available designs.** Genuinely replaces a shop's flash page and is
+  the strongest remaining idea, but it is a section with its own claim flow,
+  not a ledger row.
+- **Reviews.** High trust value, but it is a solicitation and moderation
+  system rather than a field.
+- **Map embed.** These pages carry no third-party scripts. A link to maps does
+  the job.
+- **Opening hours.** An artist's hours are the booking calendar.
+- **Newsletter, merch, gift cards.** Separate products.
+
+Open question in the render: the wishlist panel currently sits above the
+ledger, so it is the first thing after the name. That is a deliberate editorial
+bet — she leads with what she wants to make — but a client may want where, when
+and how much first.
