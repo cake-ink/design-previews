@@ -78,6 +78,49 @@ which costs a different `object-fit` crop on that one photo.
 - **The booking page's revealed work grid** has the same hole the rule fixes,
   since `.pf` is a fixed three columns.
 
+## The About page redesign
+
+A later brief, and a bigger one: the About page is where an artist says more
+about herself — how long she has tattooed, what she wants to tattoo more of,
+her background, and maybe one big photo of her working. **None of it is
+required; the page still has to look finished with any of it missing.**
+
+That constraint is the design problem, so each direction is rendered from one
+template fed three content states rather than drawn three times by hand. A
+direction that only works full is caught by its own sparse and bare frames.
+
+- **FULL** — everything set.
+- **SPARSE** — a name, a city, a year, one paragraph. No photo, no wishlist,
+  no guest spots, no socials.
+- **BARE** — a name. Nothing else at all.
+
+| | Direction | Holds up when empty because |
+| --- | --- | --- |
+| `AB-a.png` | **The plate** — photo first, name huge beneath, wishlist as a bordered panel in the header face | with no photo the name grows into the space the photo had, so the page opens on a statement either way |
+| `AB-b.png` | **The letter** — her words are the page; the portrait is small, the working photo drops into the prose | the prose is the structure, so losing the furniture around it costs least |
+| `AB-c.png` | **The ledger** — every entry a labelled row on a hairline rule | a missing entry is not a gap, it is a row that never existed |
+
+At BARE all three converge on the same thing — a name and the booking button —
+which is the honest answer rather than a failure of the renders.
+
+The wishlist is the one genuinely new field. It wants the same shape as
+`styles`: a short list of free-text items, each a couple of words.
+
+Two bugs the frames caught, both fixed here and worth not repeating in the
+real page:
+
+- `content:" \00b7 "` loses its trailing space — CSS consumes the whitespace
+  that terminates a hex escape, so the separator rendered as `OR ·Tattooing`.
+  The literal character has no such rule.
+- The letter's wishlist was written in third person (*"Right now she most
+  wants to tattoo…"*) while every other word on the page is the artist's own
+  voice. Now first person.
+
+The display faces are embedded in the pages' shared CSS; `_fonts.css` is just
+the three `@font-face` blocks lifted out of `_base.css`, because these
+directions write their layout rules fresh and should not inherit the existing
+page's.
+
 ## Frames
 
 | File | What it shows |
