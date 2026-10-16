@@ -133,6 +133,7 @@
     --muted: #5E7370;
     --line: #D8D1C0;
     --card: #FFFCF6;
+    --card2: #F1EBDF;
     --bg: #F7F2EA;
     --acc: #7360F7;
     --acc-deep: #5241C9;
@@ -161,6 +162,7 @@
     --muted: #A3B4AF;
     --line: #314C4B;
     --card: #163536;
+    --card2: #1D3B3C;
     --bg: #002325;
     --acc: #8B7BFF;
     --acc-deep: #B4A9FF;
@@ -267,6 +269,29 @@
   .t-sel .going-row { border-left: 3px solid var(--acc); }
   .t-selwash .going-row { background: var(--acc-wash); }
   .t-selgroup .going-list { border-color: var(--acc); border-width: 2px; }
+
+  /* The settle: the moment stays as it is, then the row cross-fades into a
+     state that says locked in rather than celebrating. */
+  .demo .going-row { transition: background-color .7s ease, box-shadow .7s ease; }
+  .demo .going-row.arriving { background: color-mix(in srgb, var(--lime) 22%, transparent); }
+  .demo.r-lime .going-row.settled { background: color-mix(in srgb, var(--lime) 6%, transparent); }
+  .demo.r-wash .going-row.settled { background: var(--acc-wash); }
+  .demo.r-sand .going-row.settled { background: var(--card2); }
+  .demo.r-edge .going-row.settled { background: var(--acc-wash); box-shadow: inset 3px 0 0 var(--acc); }
+  @media (prefers-reduced-motion: reduce) { .demo .going-row { transition: none; } }
+
+  .demobar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0 18px; }
+  .demobar .seg button { min-height: 34px; padding: 0 13px; font-size: 12.5px; }
+  .demobar .go {
+    min-height: 34px; padding: 0 15px;
+    border: 1px solid var(--page-accent); border-radius: 999px;
+    background: none; color: var(--page-accent);
+    font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+  }
+  .demowrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; align-items: start; }
+  .demonote { margin: 0; max-width: 56ch; color: var(--page-muted); font-size: 14px; line-height: 1.6; }
+  .demonote + .demonote { margin-top: 12px; }
+  .demonote b { color: var(--page-fg); font-weight: 600; }
 
   .ratio {
     display: inline-flex; align-items: baseline; gap: 6px;
@@ -798,6 +823,52 @@
     </div>
   </section>
 
+
+  <section class="swapsec">
+    <h3>The moment, then the settle</h3>
+    <p class="lede">Your shape: leave the four seconds exactly as they are, then let the row fade into something that reads locked in. Tap an open time and watch it happen. The settle is switchable, and the timing runs at the real four seconds unless you speed it up.</p>
+
+    <div class="demobar">
+      <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--page-muted)">Settles into</span>
+      <div class="seg" role="group" aria-label="Settled state">
+        <button type="button" data-r="wash" aria-pressed="true">Purple wash</button>
+        <button type="button" data-r="edge" aria-pressed="false">Wash + edge</button>
+        <button type="button" data-r="sand" aria-pressed="false">Card sand</button>
+        <button type="button" data-r="lime" aria-pressed="false">Lime 6%</button>
+      </div>
+      <div class="seg" role="group" aria-label="Speed">
+        <button type="button" id="spdReal" aria-pressed="true">4s</button>
+        <button type="button" id="spdFast" aria-pressed="false">Fast</button>
+      </div>
+      <button type="button" class="go" id="replay">Reset</button>
+    </div>
+
+    <div class="demowrap">
+      <div class="phone demo r-wash" id="demo" data-cake-host>
+        <div class="going">
+          <p class="going-head">Going to Jordan</p>
+          <ul class="going-list" id="demoGoing">
+            <li class="going-row settled"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+          </ul>
+        </div>
+        <div class="open">
+          <p class="open-head">Open times</p>
+          <ul class="open-list" id="demoOpen">
+            <li><button type="button" data-when="Thu, Oct 22" data-runs="10:00 AM to 1:00 PM">Thu, Oct 22, 10:00 AM<span class="open-mark">+</span></button></li>
+            <li><button type="button" data-when="Fri, Oct 23" data-runs="12:00 PM to 3:00 PM">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            <li><button type="button" data-when="Mon, Oct 26" data-runs="9:00 AM to 12:00 PM">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <p class="demonote"><b>Switch to Dark and tap again.</b> The four seconds you are preserving measure <b>1.03:1</b> against the cream card and <b>1.79:1</b> against the dark one. The flash is already close to invisible in light — which is likely why it read to you as about a second rather than four. Whatever the settle becomes, the moment itself needs the badge to carry it, because the wash alone does not.</p>
+        <p class="demonote"><b>Why purple is the default here.</b> Of everything light enough to read as a settle, <code>--acc-wash</code> sits furthest from the card at <b>1.19:1</b>, ahead of card sand at 1.16 and lime 6% at <b>1.01:1</b> — which is nothing at all. It is also the one the palette already names for soft on-state fills, so the settle is in the hue allowed to mean selected while lime keeps the moment.</p>
+        <p class="demonote"><b>A fill can be this quiet; a line cannot.</b> 1.19:1 across a whole row registers as a change of surface. The same value in a 1px border is invisible. That is the difference between this idea and the outline we started with, and it is why your instinct to make it a fade rather than an outline is the right one.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="readout">
     <h3>What to notice</h3>
     <ul>
@@ -827,5 +898,65 @@
     }
     light.addEventListener("click", function () { set("light"); });
     dark.addEventListener("click", function () { set("dark"); });
+
+    /* The settle demo: tap an open time, it arrives lime with the badge, and
+       after the real four seconds it fades into whichever settle is chosen. */
+    var demo = document.getElementById("demo");
+    var going = document.getElementById("demoGoing");
+    var open = document.getElementById("demoOpen");
+    var replay = document.getElementById("replay");
+    var spdReal = document.getElementById("spdReal");
+    var spdFast = document.getElementById("spdFast");
+    if (demo && going && open) {
+      var startOpen = open.innerHTML;
+      var startGoing = going.innerHTML;
+      var hold = 4000;
+      var timers = [];
+
+      function press(group, el) {
+        group.forEach(function (b) { b.setAttribute("aria-pressed", String(b === el)); });
+      }
+
+      demo.parentElement.parentElement.querySelectorAll("[data-r]").forEach(function (btn, _i, all) {
+        btn.addEventListener("click", function () {
+          demo.className = "phone demo r-" + btn.dataset.r;
+          press(Array.prototype.slice.call(all), btn);
+        });
+      });
+
+      spdReal.addEventListener("click", function () { hold = 4000; press([spdReal, spdFast], spdReal); });
+      spdFast.addEventListener("click", function () { hold = 1200; press([spdReal, spdFast], spdFast); });
+
+      function wire() {
+        open.querySelectorAll("button").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var li = btn.closest("li");
+            var row = document.createElement("li");
+            row.className = "going-row arriving";
+            row.innerHTML =
+              '<span class="going-text"><span class="going-when">' + btn.dataset.when +
+              '<b class="going-added">Added</b></span><span class="going-runs">' + btn.dataset.runs +
+              '</span></span><button class="rm" type="button" aria-label="Remove">\u00d7</button>';
+            going.appendChild(row);
+            if (li) li.remove();
+            timers.push(window.setTimeout(function () {
+              row.classList.remove("arriving");
+              row.classList.add("settled");
+              var badge = row.querySelector(".going-added");
+              if (badge) badge.remove();
+            }, hold));
+          });
+        });
+      }
+
+      replay.addEventListener("click", function () {
+        timers.forEach(window.clearTimeout);
+        timers = [];
+        open.innerHTML = startOpen;
+        going.innerHTML = startGoing;
+        wire();
+      });
+      wire();
+    }
   })();
 </script>
