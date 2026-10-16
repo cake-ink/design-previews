@@ -248,6 +248,29 @@
   .t-swap .open-mark { color: var(--ink); }
   .t-swap-thick .open-list button { border-width: 2px; }
 
+  /* Contrast-led: lime darkened until a line carries on cream, and lime as a
+     fill, which is the only shape that works on cream untouched. */
+  .t-olive { --lime-edge: #859D04; }
+  [data-cake="dark"] .t-olive { --lime-edge: #D4EC5C; }
+  .t-olive .going-row { border-left: 3px solid var(--lime-edge); }
+
+  .t-fill .going-row { background: var(--lime); color: var(--on-signal); }
+  .t-fill .going-runs { color: color-mix(in srgb, var(--on-signal) 70%, transparent); }
+  .t-fill .rm { border-color: color-mix(in srgb, var(--on-signal) 35%, transparent); color: var(--on-signal); }
+
+  .t-ink .going-row { border-left: 3px solid var(--ink); }
+
+  .ratio {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    font-size: 12px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .ratio em { font-style: normal; font-weight: 400; color: var(--page-muted); }
+  .ratio.bad { color: #C2410C; }
+  .ratio.ok { color: var(--page-accent); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ratio.bad { color: #FB923C; } }
+  :root[data-theme="dark"] .ratio.bad { color: #FB923C; }
+
   .tag.swap { background: var(--page-fg); color: var(--page-bg); }
   .swapsec, .readout {
     margin-top: 46px;
@@ -552,12 +575,119 @@
     </div>
   </section>
 
+  <section class="swapsec">
+    <h3>Lime has no contrast on cream</h3>
+    <p class="lede">You are right, and it is worse than it looks: lime on the cream card is <b>1.15:1</b>, and the plain hairline already there is <b>1.49:1</b>. A lime line is fainter than the border it would replace. On the dark card the same colour is <b>9.99:1</b>. Lime is a dark-mode colour that happens to also exist in light. Four ways out, cheapest first.</p>
+
+    <div class="strip" id="strip3" data-cake="light">
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag now">The problem</span>
+          <h2>B, in lime</h2>
+          <p class="ratio bad">1.15:1 <em>edge on cream</em></p>
+          <p class="note">What you picked, and what you just spotted. Fine in Dark, nearly absent in Light.</p>
+        </figcaption>
+        <div class="phone t-edge">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">Fix 1</span>
+          <h2>Darken the edge, keep lime in dark</h2>
+          <p class="ratio ok">3.01:1 <em>edge on cream · #859D04</em></p>
+          <p class="note">Lime's own hue walked down until a line carries. It reads as olive, not lime — the signal survives, the colour does not.</p>
+        </figcaption>
+        <div class="phone t-olive">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">Fix 2</span>
+          <h2>Lime as a fill, not a line</h2>
+          <p class="ratio ok">14.11:1 <em>ink on lime</em></p>
+          <p class="note">The only shape real lime works in on cream, and it is why the Added badge reads today. Loud, and unmistakable at a glance.</p>
+        </figcaption>
+        <div class="phone t-fill">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">Fix 3</span>
+          <h2>Ink edge, lime kept for the moment</h2>
+          <p class="ratio ok">15.8:1 <em>edge on cream</em></p>
+          <p class="note">Stop asking lime to be a line. Ink carries the permanent difference; lime stays what it is good at, the badge on the one just added.</p>
+        </figcaption>
+        <div class="phone t-ink t-flash">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row added"><span class="going-text"><span class="going-when">Thu, Oct 22<b class="going-added">Added</b></span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+    </div>
+  </section>
+
   <section class="readout">
     <h3>What to notice</h3>
     <ul>
       <li><b>Switch the frames to Dark and the whole question changes.</b> Lime against the dark card is loud, and a 2px outline is plenty. Against the light card it is pale yellow on cream — the line is there, but it is the weakest signal on the screen. If the outline has to work in both, A and C are carried by dark and under-read in light; <b>B and D hold in both</b>, B because 3px of solid colour survives low contrast, D because the wash does the work the line cannot.</li>
       <li><b>The flash is four seconds, not one</b> — <code>setJustAdded</code> clears after <code>4000</code>ms. It reads shorter than it is because 22% lime on cream is faint to begin with, which is the same contrast problem arriving early.</li>
       <li><b>Only one row is ever marked today.</b> The mark is <code>row.starts_at === justAdded</code>, so adding a second time silently un-marks the first. Any of these options drops that: every chosen time is marked, all the time, which is what "a clear differentiator" asks for.</li>
+      <li><b>Lime on cream is 1.15:1, and the hairline already there is 1.49:1.</b> An outline in lime is literally fainter than the border it would replace. The 22% wash is 1.04:1. On the dark card lime is 9.99:1 and the same outline is excellent — this is a colour that works in one theme and not the other, not a thickness problem.</li>
+      <li><b>It works as a fill because of what sits on it.</b> <code>--on-signal</code> on lime is 14.11:1, which is why the Added badge reads today while a lime line does not. On cream, lime has to carry dark content rather than be an edge.</li>
       <li><b>Swapping purple out costs more than it looks.</b> <code>--acc</code> is used 123 times in the studio stylesheet; it is what interactive means everywhere else. Lime is used 11 times. Make this pair lime and the open times become the one tappable control in the studio that is not purple — on the screen an artist uses most.</li>
       <li><b>Lime is already carrying two jobs, and a third is landing.</b> Today: the notice she may pass (<code>.studio-notice</code>, the calendar conflict) and celebration (the live dot, Day One). #1208 is extending the notice job across the studio right now. "A time still on offer" would be a third meaning for one colour, and it is the only one of the three that is not about attention at all.</li>
       <li><b>The dash is doing the real work in the swap frames.</b> With one hue, dashed-versus-solid is the whole distinction. That reads well at 2px and on dark; at 1px on cream the open pills nearly disappear, which is the same contrast problem that started this.</li>
@@ -569,7 +699,7 @@
 
 <script>
   (function () {
-    var strips = [document.getElementById("strip"), document.getElementById("strip2")];
+    var strips = [document.getElementById("strip"), document.getElementById("strip2"), document.getElementById("strip3")];
     var light = document.getElementById("lightBtn");
     var dark = document.getElementById("darkBtn");
     function set(theme) {
