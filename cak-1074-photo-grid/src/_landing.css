@@ -1,0 +1,124 @@
+body{min-height:100dvh;display:flex;flex-direction:column}
+/* CAK-761: the optional cover, edge to edge, and the portrait beside the name. */
+.cover{position:relative;height:clamp(150px,44vw,240px);background:var(--card2);overflow:hidden}
+.cover img{display:block;width:100%;height:100%;object-fit:cover;color:transparent;font-size:0}
+.wrap{--gutter:clamp(20px,5.6vw,28px);flex:1;width:100%;padding-top:var(--space-md);padding-left:max(var(--gutter),env(safe-area-inset-left));padding-right:max(var(--gutter),env(safe-area-inset-right))}
+.owner-view .wrap{padding-top:calc(44px + var(--space-md) + env(safe-area-inset-top))}
+.cover+.wrap{padding-top:0}
+.id{display:flex;align-items:flex-start;gap:var(--space-md);padding-top:var(--space-xs)}
+.id.over{position:relative;margin-top:calc(-1 * clamp(44px,14vw,56px));padding-top:0}
+.av{position:relative;flex:none;width:clamp(116px,38vw,150px);height:auto;aspect-ratio:5/6;transform:none;border:0;box-shadow:none;border-radius:var(--radius-2xl);overflow:hidden;background:var(--card2)}
+.av img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%;background:var(--card2);color:transparent;font-size:0;transform:none}
+.id.over .av{border:4px solid var(--bg);box-shadow:var(--shadow-float)}
+.av-seal{display:grid;place-items:center}
+.seal.lg{width:clamp(56px,14vw,72px);height:clamp(56px,14vw,72px)}
+.who{flex:1;min-width:0;container-type:inline-size;padding-top:var(--space-2xs)}
+.id.over .who{padding-top:calc(clamp(44px,14vw,56px) + var(--space-xs))}
+h1{margin:0;font-family:var(--font-header);font-weight:400;font-size:clamp(18px,calc(97cqi / var(--name-em,4)),50px);line-height:.88;letter-spacing:var(--tracking-body);overflow-wrap:break-word;text-wrap:balance}
+.pn{display:block;margin-top:var(--space-xs);font-size:var(--text-sm);color:var(--muted)}
+/* Who and where sit with the portrait; what they do runs full width under it;
+   whether, how much, and how fast sit on the rule right above the booking
+   (Micah, 2026-10-09). */
+.where{margin:var(--space-sm) 0 0;font-size:var(--text-body);line-height:1.35;color:var(--muted);overflow-wrap:anywhere}
+.where span{display:block}
+.bio{margin:var(--space-md) 0 0;max-width:var(--measure-copy);font-size:var(--text-body-lg);line-height:1.45;font-weight:500;color:var(--ink);overflow-wrap:break-word;text-wrap:pretty}
+.facts{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-xs) var(--space-md);margin-top:var(--space-md);padding-top:var(--space-sm);border-top:2px solid var(--ink);font-size:var(--text-body);color:var(--muted)}
+.facts b{color:var(--ink);font-weight:600}
+.pill{display:inline-flex;align-items:center;min-height:28px;padding:0 var(--space-xs);border-radius:var(--radius-pill);border:0;font-family:var(--font-display);font-size:16px;font-weight:400;letter-spacing:var(--tracking-display-action);text-transform:uppercase}
+.pill.on{background:var(--lime);color:var(--brand-ink)}
+.pill.closed{background:var(--card2);color:var(--muted)}
+.btn{min-height:56px;border-radius:var(--radius-pill);font-size:clamp(19px,5vw,21px)}
+/* Request leads; About opens the artist's own page beside it. */
+.acts{display:flex;flex-wrap:wrap;gap:var(--space-xs);margin-top:var(--space-lg)}
+.acts .btn{flex:999 1 200px;width:auto;margin-top:0}
+.about-btn{display:inline-flex;align-items:center;justify-content:center;flex:1 0 auto;min-height:56px;padding:0 var(--space-lg);border:1.5px solid var(--line);border-radius:var(--radius-pill);background:var(--card);color:var(--ink);font-family:var(--font-display);font-size:clamp(19px,5vw,21px);letter-spacing:var(--tracking-display-action);text-transform:uppercase;text-decoration:none}
+.about-btn:hover{border-color:var(--ink)}
+.about-btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.about-btn.setup{border-style:dashed}
+.sh{display:flex;align-items:center;gap:var(--space-sm);margin:var(--space-lg) 0 var(--space-sm);font-family:var(--font-header);font-weight:400;font-size:clamp(32px,9vw,40px);line-height:.9;text-transform:uppercase;color:var(--ink)}
+.sh::after{content:"";order:1;flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.sh .ct{order:2;font-family:var(--font-display);font-size:20px;color:var(--muted)}
+.pf{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-2xs)}
+/* CAK-761: on phones the work runs nearly edge to edge, so six pieces read
+   big; the gutter returns from 760px. */
+.work .pf{margin-left:calc(var(--space-2xs) - var(--gutter));margin-right:calc(var(--space-2xs) - var(--gutter))}
+.pf .cell.photo{position:relative;border:0;border-radius:var(--radius-xs);background:var(--card2)}
+.pf .cell.photo::before{content:"";position:absolute;inset:12%;border:1.5px solid var(--line);border-radius:inherit;opacity:.7;pointer-events:none}
+.pf .cell.photo img{position:relative;z-index:1;background:var(--card2);color:transparent;font-size:0}
+.ownerbar{position:fixed;top:max(var(--space-xs),env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:5;display:inline-flex;align-items:center;gap:8px;min-height:44px;max-width:calc(100vw - 2 * var(--space-md));background:var(--ink);color:var(--bg);border-radius:var(--radius-pill);padding:var(--space-xs) var(--space-sm);font-size:var(--text-sm);font-weight:700;text-decoration:none;box-shadow:var(--shadow-float);white-space:nowrap}
+.ownerbar b{color:var(--acc-soft);font-weight:700}
+.pf button.cell.photo{appearance:none;margin:0;font:inherit;cursor:zoom-in;transition:transform .2s var(--ease-out-quart)}
+.pf button.cell.photo:hover{transform:scale(1.02)}
+.pf button.cell.photo:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.more-work summary{display:flex;align-items:center;justify-content:center;min-height:54px;margin-top:var(--space-sm);border-radius:var(--radius-pill);border:1.5px solid var(--line);font-family:var(--font-display);font-size:20px;letter-spacing:var(--tracking-display-action);text-transform:uppercase;color:var(--ink);cursor:pointer;list-style:none}
+.more-work summary::-webkit-details-marker{display:none}
+.more-work summary:hover{background:var(--card)}
+.more-work[open] summary{order:2}
+.more-work .open-label,.more-work[open] .closed-label{display:none}
+.more-work[open] .open-label{display:inline}
+.more-work[open]{display:flex;flex-direction:column}
+.more-work .pf{margin-top:var(--space-2xs)}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:4;padding:var(--space-sm) max(var(--space-md),env(safe-area-inset-right)) calc(var(--space-sm) + env(safe-area-inset-bottom)) max(var(--space-md),env(safe-area-inset-left));background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .45s var(--ease-out-expo)}
+.dock.show{transform:none}
+.has-dock footer{padding-bottom:calc(var(--space-md) + 80px + env(safe-area-inset-bottom))}
+.dock .btn{margin:0;min-height:50px;box-shadow:none}
+.rows{margin-top:var(--space-xl);border-top:1px solid var(--line)}
+.row{border-bottom:1px solid var(--line)}
+.row summary{display:flex;align-items:center;justify-content:space-between;gap:var(--space-sm);min-height:64px;padding:0 var(--space-2xs);font-weight:700;font-size:clamp(17px,4.8vw,19px);color:var(--ink);cursor:pointer;list-style:none}
+.row summary::-webkit-details-marker{display:none}
+.row summary svg{flex:none;color:var(--muted);transition:transform .25s var(--ease-out-quart)}
+.row[open] summary svg{transform:rotate(90deg)}
+.row-body{max-width:var(--measure-copy);padding:0 var(--space-2xs) var(--space-md);font-size:var(--text-body-lg);line-height:1.55;color:var(--ink)}
+.row-body h3{margin:var(--space-sm) 0 var(--space-2xs);font-size:var(--text-body-lg);font-weight:700}
+.row-body h3:first-child{margin-top:0}
+.row-body p{margin:0 0 var(--space-xs);color:var(--muted);white-space:pre-line}
+.pf-empty{grid-column:1/-1;display:grid;place-items:center;border:1px dashed var(--line);border-radius:var(--radius-sm);background:var(--card2);padding:var(--space-xl) var(--space-lg);text-align:center}
+.pf-empty p{max-width:36ch;margin:0;color:var(--muted)}
+/* DESIGN.md: every motion respects reduced motion. */
+@media (prefers-reduced-motion:reduce){.dock,.row summary svg{transition:none}}
+/* Setup prompts on the artist's own view: dashed, quiet, one tap to the room. */
+.setup-row{display:flex;align-items:center;justify-content:center;min-height:56px;margin-top:var(--space-sm);border:1.5px dashed var(--line);border-radius:var(--radius-md);color:var(--ink);font-weight:700;text-decoration:none}
+.setup-row:hover,.setup:hover{border-color:var(--ink)}
+.bio-setup{margin-top:var(--space-md)}
+.setup-link{color:var(--acc-deep);font-weight:700;text-decoration:none}
+body.dark .setup-link{color:var(--on-ink)}
+.where.setup-link{display:inline-block;margin-top:var(--space-sm);font-size:var(--text-body)}
+a.av.setup{display:grid;place-items:center;align-content:center;gap:var(--space-xs);border:1.5px dashed var(--line);color:var(--ink);font-weight:700;font-size:var(--text-sm);text-decoration:none}
+a.pf-empty.setup{color:var(--ink);text-decoration:none}
+.pf-empty b{display:block;margin-bottom:var(--space-2xs);color:var(--ink);font-size:var(--text-body)}
+dialog#lightbox{border:0;padding:0;background:transparent;max-width:none;max-height:none;outline:none}
+dialog#lightbox::backdrop{background:color-mix(in srgb,var(--ink) 62%,transparent)}
+dialog#lightbox .lbstage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;margin:0;padding:clamp(18px,4vw,48px);touch-action:pan-y;box-sizing:border-box}
+dialog#lightbox img{display:block;width:auto;height:auto;max-width:min(92vw,880px);max-height:82dvh;border-radius:var(--radius);box-shadow:var(--shadow-lift);user-select:none;-webkit-user-drag:none}
+dialog#lightbox button{position:fixed;width:44px;height:44px;border-radius:var(--radius-pill);border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;box-shadow:var(--shadow-float)}
+dialog#lightbox button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.lbclose{top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right))}
+.lbnav{top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center}
+.lbnav.prev{left:max(14px,env(safe-area-inset-left))}
+.lbnav.next{right:max(14px,env(safe-area-inset-right))}
+.lbmeta{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--radius-pill);background:color-mix(in srgb,var(--bg) 88%,transparent);color:var(--ink);box-shadow:var(--shadow-float);padding:9px 14px;font-size:12px;font-weight:800;letter-spacing:var(--tracking-media-description);text-transform:uppercase;backdrop-filter:blur(10px)}
+@media (prefers-reduced-motion: no-preference){
+  dialog#lightbox[open] img{animation:lb-in .22s var(--ease-out-expo)}
+  @keyframes lb-in{from{opacity:0;transform:scale(.96)}}
+}
+@media (max-width:600px){
+  dialog#lightbox img{max-height:78dvh}
+  .lbnav{display:none}
+}
+@media (min-width:760px){
+  .dock{display:none}
+  .has-dock footer{padding-bottom:var(--space-md)}
+  /* Micah, 2026-10-08: on desktop the cover runs the full width of the window. */
+  .cover{height:clamp(280px,30vw,480px)}
+  .pf{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-xs)}
+  .work .pf{margin-left:0;margin-right:0}
+  .pf .cell.photo{border-radius:var(--radius-md)}
+}
+@media (min-width:1024px){
+  .wrap{max-width:var(--page-wide);display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:0 var(--space-xl);align-items:start}
+  .side{position:sticky;top:var(--space-lg)}
+  .owner-view .side{top:calc(44px + var(--space-lg))}
+  .work .sh{margin-top:var(--space-md)}
+  .rows{grid-column:1/-1}
+  .pf{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
