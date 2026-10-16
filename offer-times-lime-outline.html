@@ -1,0 +1,457 @@
+<title>Lime on added times</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;750&family=Bebas+Neue&display=swap">
+<style>
+  /* Layout: a strip of 390px studio frames, one per treatment, compared side
+     by side; page chrome follows the viewer's theme, the frames follow the
+     studio theme the switch selects. */
+  :root {
+    --page-bg: #F7F2EA;
+    --page-fg: #002325;
+    --page-muted: #5E7370;
+    --page-line: #D8D1C0;
+    --page-card: #FFFCF6;
+    --page-accent: #5241C9;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Bebas Neue', 'Oswald', 'Arial Narrow', Impact, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page-bg: #002325;
+      --page-fg: #F3EEE4;
+      --page-muted: #A3B4AF;
+      --page-line: #314C4B;
+      --page-card: #163536;
+      --page-accent: #B4A9FF;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #002325;
+    --page-fg: #F3EEE4;
+    --page-muted: #A3B4AF;
+    --page-line: #314C4B;
+    --page-card: #163536;
+    --page-accent: #B4A9FF;
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--page-fg);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 28px 56px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  header h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(34px, 7vw, 54px);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 0.94;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  header p {
+    margin: 10px 0 0;
+    max-width: 62ch;
+    color: var(--page-muted);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  header p b { color: var(--page-fg); font-weight: 600; }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--page-line);
+  }
+  .controls span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--page-muted);
+  }
+  .seg { display: flex; border: 1px solid var(--page-line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    min-height: 36px;
+    padding: 0 16px;
+    border: 0;
+    background: none;
+    color: var(--page-muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--page-accent); color: var(--page-bg); }
+  .seg button:focus-visible { outline: 2px solid var(--page-accent); outline-offset: -2px; }
+
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 26px;
+    margin-top: 28px;
+    align-items: start;
+  }
+
+  .frame { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .frame > figcaption { display: flex; flex-direction: column; gap: 5px; }
+  .tag {
+    align-self: flex-start;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tag.now { background: var(--page-line); color: var(--page-fg); }
+  .tag.opt { background: var(--page-accent); color: var(--page-bg); }
+  .frame h2 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -0.1px; }
+  .frame .note { margin: 0; color: var(--page-muted); font-size: 13px; line-height: 1.5; }
+
+  /* ---- the studio surface, in Cake's own tokens ---- */
+  .phone {
+    --lime: #DEFA48;
+    --on-signal: #002325;
+    --ink: #002325;
+    --muted: #5E7370;
+    --line: #D8D1C0;
+    --card: #FFFCF6;
+    --bg: #F7F2EA;
+    --acc: #7360F7;
+    --acc-deep: #5241C9;
+    --hairline: 1px;
+    --radius-md: 14px;
+    --radius-sm: 12px;
+    --radius-pill: 999px;
+    --tap-target: 44px;
+    --space-2xs: 4px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+
+    max-width: 390px;
+    width: 100%;
+    padding: var(--space-md);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+  }
+  [data-cake="dark"] .phone {
+    --lime: #D4EC5C;
+    --ink: #F3EEE4;
+    --muted: #A3B4AF;
+    --line: #314C4B;
+    --card: #163536;
+    --bg: #002325;
+    --acc: #8B7BFF;
+    --acc-deep: #B4A9FF;
+  }
+
+  .going { margin-top: 0; }
+  .going-head, .open-head { margin: 0 0 var(--space-2xs); font-size: 0.8rem; font-weight: 700; }
+  .going-list {
+    margin: 0; padding: 0; list-style: none;
+    border: var(--hairline) solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--card);
+    overflow: hidden;
+  }
+  .going-row + .going-row { border-top: var(--hairline) solid var(--line); }
+  .going-row {
+    display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-xs) var(--space-sm);
+    min-height: var(--tap-target);
+  }
+  .going-text { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; }
+  .going-when { font-weight: 700; display: flex; align-items: center; }
+  .going-runs { color: var(--muted); font-size: 0.8rem; }
+  .going-added {
+    margin-left: var(--space-2xs);
+    padding: 0 var(--space-2xs);
+    border-radius: var(--radius-sm);
+    background: var(--lime);
+    color: var(--on-signal);
+    font-size: 12px;
+  }
+  .rm {
+    display: flex; align-items: center; justify-content: center;
+    flex: none; width: 30px; height: 30px;
+    border: var(--hairline) solid var(--line);
+    border-radius: var(--radius-pill);
+    background: none; color: var(--muted);
+    font-family: inherit; font-size: 15px; line-height: 1;
+    cursor: default;
+  }
+
+  .open { margin-top: var(--space-md); }
+  .open-list { display: grid; gap: var(--space-xs); margin: 0; padding: 0; list-style: none; }
+  .open-list button {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--space-xs); width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-xs) var(--space-sm);
+    border: var(--hairline) dashed var(--acc);
+    border-radius: var(--radius-pill);
+    background: none; color: var(--ink);
+    font-family: inherit; font-size: 15px;
+    text-align: left; cursor: default;
+  }
+  .open-mark { color: var(--acc-deep); font-size: 1.15rem; line-height: 1; }
+
+  /* ---- the treatments ---- */
+  /* Now, inside the 4-second window. */
+  .t-flash .going-row.added { background: color-mix(in srgb, var(--lime) 22%, transparent); }
+
+  /* A — the group is outlined. */
+  .t-group .going-list { border-color: var(--lime); border-width: 2px; }
+
+  /* B — each row carries a lime edge. */
+  .t-edge .going-row { border-left: 3px solid var(--lime); }
+
+  /* C — each row is its own outlined card. */
+  .t-cards .going-list { border: 0; border-radius: 0; background: none; overflow: visible; display: grid; gap: var(--space-xs); }
+  .t-cards .going-row + .going-row { border-top: 0; }
+  .t-cards .going-row {
+    border: 2px solid var(--lime);
+    border-radius: var(--radius-md);
+    background: var(--card);
+  }
+
+  /* D — outline plus the wash, kept. */
+  .t-both .going-list { border-color: var(--lime); border-width: 2px; }
+  .t-both .going-row { background: color-mix(in srgb, var(--lime) 14%, transparent); }
+
+  .readout {
+    margin-top: 46px;
+    padding-top: 26px;
+    border-top: 1px solid var(--page-line);
+  }
+  .readout h3 {
+    margin: 0 0 14px;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .readout ul { margin: 0; padding-left: 18px; max-width: 74ch; }
+  .readout li { margin-bottom: 11px; color: var(--page-muted); font-size: 14.5px; line-height: 1.6; }
+  .readout li b { color: var(--page-fg); font-weight: 600; }
+  .readout code {
+    padding: 1px 5px;
+    border-radius: 5px;
+    background: var(--page-card);
+    border: 1px solid var(--page-line);
+    font-size: 0.88em;
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Lime on the added times</h1>
+    <p>Today the lime on a row in <b>Going to Jordan</b> is a wash that lasts four seconds and then goes, and only ever on the one row added last. Below: what it looks like kept as an outline, so a chosen time stays visibly different from an open one. Each frame is the real Times section at 390, in Cake's own tokens.</p>
+  </header>
+
+  <div class="controls">
+    <span>Studio theme</span>
+    <div class="seg" role="group" aria-label="Studio theme">
+      <button type="button" id="lightBtn" aria-pressed="true">Light</button>
+      <button type="button" id="darkBtn" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+
+  <div class="strip" id="strip" data-cake="light">
+
+    <figure class="frame" style="margin:0">
+      <figcaption>
+        <span class="tag now">Now · first 4s</span>
+        <h2>The wash, while it lasts</h2>
+        <p class="note">Only the row added last is marked, so a second tap takes the lime off the first.</p>
+      </figcaption>
+      <div class="phone t-flash">
+        <div class="going">
+          <p class="going-head">Going to Jordan</p>
+          <ul class="going-list">
+            <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            <li class="going-row added"><span class="going-text"><span class="going-when">Thu, Oct 22<b class="going-added">Added</b></span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+          </ul>
+        </div>
+        <div class="open">
+          <p class="open-head">Open times</p>
+          <ul class="open-list">
+            <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+          </ul>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="frame" style="margin:0">
+      <figcaption>
+        <span class="tag now">Now · after 4s</span>
+        <h2>What she actually looks at</h2>
+        <p class="note">The lime is gone. A chosen time and an open time are told apart by a solid card against a dashed pill.</p>
+      </figcaption>
+      <div class="phone">
+        <div class="going">
+          <p class="going-head">Going to Jordan</p>
+          <ul class="going-list">
+            <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+          </ul>
+        </div>
+        <div class="open">
+          <p class="open-head">Open times</p>
+          <ul class="open-list">
+            <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+          </ul>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="frame" style="margin:0">
+      <figcaption>
+        <span class="tag opt">Option A</span>
+        <h2>Outline the group</h2>
+        <p class="note">One lime object. Cheapest change, and the count never affects how it reads.</p>
+      </figcaption>
+      <div class="phone t-group">
+        <div class="going">
+          <p class="going-head">Going to Jordan</p>
+          <ul class="going-list">
+            <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+          </ul>
+        </div>
+        <div class="open">
+          <p class="open-head">Open times</p>
+          <ul class="open-list">
+            <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+          </ul>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="frame" style="margin:0">
+      <figcaption>
+        <span class="tag opt">Option B</span>
+        <h2>A lime edge per row</h2>
+        <p class="note">Each time carries the mark itself. Reads as a stack of chosen things, and survives one row or six.</p>
+      </figcaption>
+      <div class="phone t-edge">
+        <div class="going">
+          <p class="going-head">Going to Jordan</p>
+          <ul class="going-list">
+            <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+          </ul>
+        </div>
+        <div class="open">
+          <p class="open-head">Open times</p>
+          <ul class="open-list">
+            <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+          </ul>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="frame" style="margin:0">
+      <figcaption>
+        <span class="tag opt">Option C</span>
+        <h2>Outline every row</h2>
+        <p class="note">Loudest. Each time is its own lime card, which also breaks the list up the most.</p>
+      </figcaption>
+      <div class="phone t-cards">
+        <div class="going">
+          <p class="going-head">Going to Jordan</p>
+          <ul class="going-list">
+            <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+          </ul>
+        </div>
+        <div class="open">
+          <p class="open-head">Open times</p>
+          <ul class="open-list">
+            <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+          </ul>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="frame" style="margin:0">
+      <figcaption>
+        <span class="tag opt">Option D</span>
+        <h2>Outline and keep the wash</h2>
+        <p class="note">The wash stays at 14% instead of going. Carries the signal in light mode where a lime line alone barely shows.</p>
+      </figcaption>
+      <div class="phone t-both">
+        <div class="going">
+          <p class="going-head">Going to Jordan</p>
+          <ul class="going-list">
+            <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+          </ul>
+        </div>
+        <div class="open">
+          <p class="open-head">Open times</p>
+          <ul class="open-list">
+            <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+            <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+          </ul>
+        </div>
+      </div>
+    </figure>
+
+  </div>
+
+  <section class="readout">
+    <h3>What to notice</h3>
+    <ul>
+      <li><b>Switch the frames to Dark and the whole question changes.</b> Lime against the dark card is loud, and a 2px outline is plenty. Against the light card it is pale yellow on cream — the line is there, but it is the weakest signal on the screen. If the outline has to work in both, A and C are carried by dark and under-read in light; <b>B and D hold in both</b>, B because 3px of solid colour survives low contrast, D because the wash does the work the line cannot.</li>
+      <li><b>The flash is four seconds, not one</b> — <code>setJustAdded</code> clears after <code>4000</code>ms. It reads shorter than it is because 22% lime on cream is faint to begin with, which is the same contrast problem arriving early.</li>
+      <li><b>Only one row is ever marked today.</b> The mark is <code>row.starts_at === justAdded</code>, so adding a second time silently un-marks the first. Any of these options drops that: every chosen time is marked, all the time, which is what "a clear differentiator" asks for.</li>
+      <li><b>There is already a differentiator, and it is purple.</b> Open times are dashed pills in <code>--acc</code>; chosen times are a solid card. Lime would be a second axis on top of that, so the question is whether lime <i>replaces</i> the purple-dashed language for this pair or sits beside it.</li>
+      <li><b>The Added badge is worth keeping either way.</b> It is the only part that says <i>just now</i> rather than <i>chosen</i>. If the outline becomes permanent, the badge is what is left to carry the tap's feedback, and it already has a contrast-safe pairing (<code>--on-signal</code> on <code>--lime</code>, both themes).</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+  (function () {
+    var strip = document.getElementById("strip");
+    var light = document.getElementById("lightBtn");
+    var dark = document.getElementById("darkBtn");
+    function set(theme) {
+      strip.dataset.cake = theme;
+      light.setAttribute("aria-pressed", String(theme === "light"));
+      dark.setAttribute("aria-pressed", String(theme === "dark"));
+    }
+    light.addEventListener("click", function () { set("light"); });
+    dark.addEventListener("click", function () { set("dark"); });
+  })();
+</script>
