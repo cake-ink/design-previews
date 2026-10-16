@@ -260,6 +260,14 @@
 
   .t-ink .going-row { border-left: 3px solid var(--ink); }
 
+  /* What the palette already provides for a selection state: the one
+     interactive hue, and --acc-wash, the approved soft on-state fill. */
+  .phone { --acc-wash: rgba(115,96,247,.14); }
+  [data-cake="dark"] .phone { --acc-wash: rgba(139,123,255,.20); }
+  .t-sel .going-row { border-left: 3px solid var(--acc); }
+  .t-selwash .going-row { background: var(--acc-wash); }
+  .t-selgroup .going-list { border-color: var(--acc); border-width: 2px; }
+
   .ratio {
     display: inline-flex; align-items: baseline; gap: 6px;
     font-size: 12px; font-weight: 700;
@@ -680,6 +688,116 @@
     </div>
   </section>
 
+
+  <section class="swapsec">
+    <h3>What the system already says</h3>
+    <p class="lede">DESIGN.md, the One Voice Three Signals Rule, your CAK-497 ruling: <b>"Purple is the only hue that may carry interaction or selection… A signal never becomes a button, a link, a focus ring, or selection state."</b> Going to Jordan is a selection. By the palette's own law the marker is purple, and the palette already ships the token for it — <code>--acc-wash</code>, "soft on-state fills". These are that answer.</p>
+
+    <div class="strip" id="strip4" data-cake="light">
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">Purple 1</span>
+          <h2>Purple edge</h2>
+          <p class="ratio ok">4.32:1 <em>--acc on cream</em></p>
+          <p class="note">B's shape in the hue the rule assigns to selection. Nothing new, contrast in both themes.</p>
+        </figcaption>
+        <div class="phone t-sel">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">Purple 2</span>
+          <h2>The approved on-state fill</h2>
+          <p class="ratio ok"><em>--acc-wash, 14%</em></p>
+          <p class="note">The token the palette already ships for exactly this. Quiet, and it marks the whole row rather than one edge.</p>
+        </figcaption>
+        <div class="phone t-selwash">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">Purple 3</span>
+          <h2>Edge and fill together</h2>
+          <p class="ratio ok"><em>--acc + --acc-wash</em></p>
+          <p class="note">What I would build. Selected reads at a glance, open times stay dashed and tappable, one hue carries both states.</p>
+        </figcaption>
+        <div class="phone t-sel t-selwash">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">Purple 4</span>
+          <h2>Same, with lime still arriving</h2>
+          <p class="ratio ok">14.11:1 <em>badge</em></p>
+          <p class="note">Purple holds the permanent state; lime keeps the job it is good at — the moment, and only the moment.</p>
+        </figcaption>
+        <div class="phone t-sel t-selwash t-flash">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row added"><span class="going-text"><span class="going-when">Thu, Oct 22<b class="going-added">Added</b></span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+    </div>
+  </section>
+
   <section class="readout">
     <h3>What to notice</h3>
     <ul>
@@ -699,7 +817,7 @@
 
 <script>
   (function () {
-    var strips = [document.getElementById("strip"), document.getElementById("strip2"), document.getElementById("strip3")];
+    var strips = [document.getElementById("strip"), document.getElementById("strip2"), document.getElementById("strip3"), document.getElementById("strip4")];
     var light = document.getElementById("lightBtn");
     var dark = document.getElementById("darkBtn");
     function set(theme) {
