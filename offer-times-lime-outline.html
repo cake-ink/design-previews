@@ -241,11 +241,29 @@
   .t-both .going-list { border-color: var(--lime); border-width: 2px; }
   .t-both .going-row { background: color-mix(in srgb, var(--lime) 14%, transparent); }
 
-  .readout {
+  /* Swap — lime takes the open times too, so the pair is one hue and the
+     dash carries not-yet-chosen. The + mark cannot follow: lime on cream is
+     unreadable at glyph size, so it goes to ink. */
+  .t-swap .open-list button { border-color: var(--lime); }
+  .t-swap .open-mark { color: var(--ink); }
+  .t-swap-thick .open-list button { border-width: 2px; }
+
+  .tag.swap { background: var(--page-fg); color: var(--page-bg); }
+  .swapsec, .readout {
     margin-top: 46px;
     padding-top: 26px;
     border-top: 1px solid var(--page-line);
   }
+  .swapsec h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .swapsec .lede { margin: 0; max-width: 68ch; color: var(--page-muted); font-size: 14.5px; line-height: 1.6; }
+  .swapsec .strip { margin-top: 24px; }
   .readout h3 {
     margin: 0 0 14px;
     font-family: var(--font-display);
@@ -429,13 +447,121 @@
 
   </div>
 
+  <section class="swapsec">
+    <h3>Lime instead of the purple dash</h3>
+    <p class="lede">You picked B, so these put B and C against the same question: what if lime took the open times as well, and the pair became one hue with the dash meaning <i>not chosen yet</i>? B as picked is on the left to compare against.</p>
+
+    <div class="strip" id="strip2" data-cake="light">
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag opt">B · as picked</span>
+          <h2>Lime chosen, purple open</h2>
+          <p class="note">Two hues, two jobs. Open times keep the studio's interactive purple.</p>
+        </figcaption>
+        <div class="phone t-edge">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag swap">B · lime both</span>
+          <h2>Dashed lime, solid lime</h2>
+          <p class="note">One hue. The dash is the only thing saying a time is still on offer rather than taken.</p>
+        </figcaption>
+        <div class="phone t-edge t-swap">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag swap">C · lime both</span>
+          <h2>Outlined rows, dashed lime</h2>
+          <p class="note">Your second pick, swapped. Solid outline against dashed outline is the cleanest read of the pair.</p>
+        </figcaption>
+        <div class="phone t-cards t-swap">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame" style="margin:0">
+        <figcaption>
+          <span class="tag swap">C · lime both, 2px</span>
+          <h2>Same, with the dash thickened</h2>
+          <p class="note">A 1px dashed lime pill nearly vanishes on cream. At 2px it survives — check this one in Light.</p>
+        </figcaption>
+        <div class="phone t-cards t-swap t-swap-thick">
+          <div class="going">
+            <p class="going-head">Going to Jordan</p>
+            <ul class="going-list">
+              <li class="going-row"><span class="going-text"><span class="going-when">Wed, Oct 21</span><span class="going-runs">12:00 PM to 3:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+              <li class="going-row"><span class="going-text"><span class="going-when">Thu, Oct 22</span><span class="going-runs">10:00 AM to 1:00 PM</span></span><button class="rm" type="button" aria-label="Remove">×</button></li>
+            </ul>
+          </div>
+          <div class="open">
+            <p class="open-head">Open times</p>
+            <ul class="open-list">
+              <li><button type="button">Fri, Oct 23, 12:00 PM<span class="open-mark">+</span></button></li>
+              <li><button type="button">Mon, Oct 26, 9:00 AM<span class="open-mark">+</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </figure>
+
+    </div>
+  </section>
+
   <section class="readout">
     <h3>What to notice</h3>
     <ul>
       <li><b>Switch the frames to Dark and the whole question changes.</b> Lime against the dark card is loud, and a 2px outline is plenty. Against the light card it is pale yellow on cream — the line is there, but it is the weakest signal on the screen. If the outline has to work in both, A and C are carried by dark and under-read in light; <b>B and D hold in both</b>, B because 3px of solid colour survives low contrast, D because the wash does the work the line cannot.</li>
       <li><b>The flash is four seconds, not one</b> — <code>setJustAdded</code> clears after <code>4000</code>ms. It reads shorter than it is because 22% lime on cream is faint to begin with, which is the same contrast problem arriving early.</li>
       <li><b>Only one row is ever marked today.</b> The mark is <code>row.starts_at === justAdded</code>, so adding a second time silently un-marks the first. Any of these options drops that: every chosen time is marked, all the time, which is what "a clear differentiator" asks for.</li>
-      <li><b>There is already a differentiator, and it is purple.</b> Open times are dashed pills in <code>--acc</code>; chosen times are a solid card. Lime would be a second axis on top of that, so the question is whether lime <i>replaces</i> the purple-dashed language for this pair or sits beside it.</li>
+      <li><b>Swapping purple out costs more than it looks.</b> <code>--acc</code> is used 123 times in the studio stylesheet; it is what interactive means everywhere else. Lime is used 11 times. Make this pair lime and the open times become the one tappable control in the studio that is not purple — on the screen an artist uses most.</li>
+      <li><b>Lime is already carrying two jobs, and a third is landing.</b> Today: the notice she may pass (<code>.studio-notice</code>, the calendar conflict) and celebration (the live dot, Day One). #1208 is extending the notice job across the studio right now. "A time still on offer" would be a third meaning for one colour, and it is the only one of the three that is not about attention at all.</li>
+      <li><b>The dash is doing the real work in the swap frames.</b> With one hue, dashed-versus-solid is the whole distinction. That reads well at 2px and on dark; at 1px on cream the open pills nearly disappear, which is the same contrast problem that started this.</li>
+      <li><b>If lime stays on the chosen side only, nothing has to move.</b> B is additive: a 3px edge on a row that already exists. No token changes meaning, the purple language is untouched, and the <code>+</code> mark keeps the contrast it has.</li>
       <li><b>The Added badge is worth keeping either way.</b> It is the only part that says <i>just now</i> rather than <i>chosen</i>. If the outline becomes permanent, the badge is what is left to carry the tap's feedback, and it already has a contrast-safe pairing (<code>--on-signal</code> on <code>--lime</code>, both themes).</li>
     </ul>
   </section>
@@ -443,11 +569,11 @@
 
 <script>
   (function () {
-    var strip = document.getElementById("strip");
+    var strips = [document.getElementById("strip"), document.getElementById("strip2")];
     var light = document.getElementById("lightBtn");
     var dark = document.getElementById("darkBtn");
     function set(theme) {
-      strip.dataset.cake = theme;
+      strips.forEach(function (s) { if (s) s.dataset.cake = theme; });
       light.setAttribute("aria-pressed", String(theme === "light"));
       dark.setAttribute("aria-pressed", String(theme === "dark"));
     }
