@@ -1,0 +1,484 @@
+<title>Multi-day offer shapes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;750&family=Bebas+Neue&display=swap">
+<style>
+  /* CAK-1630. Three shapes for ko.kismet's ask, in 390px studio frames so
+     they are compared at the width she meets them. Page chrome follows the
+     viewer's theme; the frames follow the studio theme the switch selects. */
+  :root {
+    --page-bg: #F7F2EA;
+    --page-fg: #002325;
+    --page-muted: #5E7370;
+    --page-line: #D8D1C0;
+    --page-card: #FFFCF6;
+    --page-accent: #5241C9;
+    --page-warn: #8A5A00;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Bebas Neue', 'Oswald', 'Arial Narrow', Impact, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page-bg: #002325;
+      --page-fg: #F3EEE4;
+      --page-muted: #A3B4AF;
+      --page-line: #314C4B;
+      --page-card: #163536;
+      --page-accent: #B4A9FF;
+      --page-warn: #E8C07A;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #002325;
+    --page-fg: #F3EEE4;
+    --page-muted: #A3B4AF;
+    --page-line: #314C4B;
+    --page-card: #163536;
+    --page-accent: #B4A9FF;
+    --page-warn: #E8C07A;
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--page-fg);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 28px 56px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  header h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(34px, 7vw, 54px);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 0.94;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  header .said {
+    margin: 14px 0 0;
+    padding-left: 14px;
+    border-left: 3px solid var(--page-accent);
+    max-width: 62ch;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  header .said cite { display: block; margin-top: 6px; color: var(--page-muted); font-size: 13px; font-style: normal; }
+  header p { margin: 12px 0 0; max-width: 62ch; color: var(--page-muted); font-size: 15px; line-height: 1.55; }
+  header p b { color: var(--page-fg); font-weight: 600; }
+
+  .controls {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    margin-top: 22px; padding-bottom: 22px;
+    border-bottom: 1px solid var(--page-line);
+  }
+  .controls span {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--page-muted);
+  }
+  .seg { display: flex; border: 1px solid var(--page-line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    min-height: 36px; padding: 0 16px; border: 0; background: none;
+    color: var(--page-muted); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--page-accent); color: var(--page-bg); }
+  .seg button:focus-visible { outline: 2px solid var(--page-accent); outline-offset: -2px; }
+
+  .strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 26px; margin-top: 28px; align-items: start;
+  }
+  .frame { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .frame > figcaption { display: flex; flex-direction: column; gap: 6px; }
+  .tag {
+    align-self: flex-start; padding: 3px 9px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .tag.now { background: var(--page-line); color: var(--page-fg); }
+  .tag.opt { background: var(--page-accent); color: var(--page-bg); }
+  .frame h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.1px; }
+  .frame .note { margin: 0; color: var(--page-muted); font-size: 13.5px; line-height: 1.55; }
+  .frame .note b { color: var(--page-fg); font-weight: 600; }
+  .cost { margin: 0; font-size: 13px; line-height: 1.5; color: var(--page-muted); }
+  .cost b { color: var(--page-fg); font-weight: 600; }
+
+  /* ---- the studio surface, in Cake's own tokens ---- */
+  .phone {
+    --lime: #DEFA48;
+    --on-signal: #002325;
+    --ink: #002325;
+    --muted: #5E7370;
+    --line: #D8D1C0;
+    --card: #FFFCF6;
+    --card2: #F1EBDF;
+    --bg: #F7F2EA;
+    --acc: #7360F7;
+    --acc-deep: #5241C9;
+    --acc-wash: rgba(115,96,247,.14);
+    --coral: #FF6B5A;
+    --hairline: 1px;
+    --radius-md: 14px;
+    --radius-sm: 12px;
+    --radius-pill: 999px;
+    --tap-target: 44px;
+    --space-2xs: 4px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+
+    max-width: 390px; width: 100%;
+    padding: var(--space-md);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--bg); color: var(--ink);
+    font-size: 15px;
+  }
+  [data-cake="dark"] .phone {
+    --lime: #D4EC5C;
+    --ink: #F3EEE4;
+    --muted: #A3B4AF;
+    --line: #314C4B;
+    --card: #163536;
+    --card2: #1D3B3C;
+    --bg: #002325;
+    --acc: #8B7BFF;
+    --acc-deep: #B4A9FF;
+    --acc-wash: rgba(139,123,255,.20);
+    --coral: #FF8A7A;
+  }
+
+  /* The sheet, as the Add a time panel is drawn today. */
+  .sheet-title { margin: 0; font-size: 0.8rem; font-weight: 700; }
+  .sheet-under { margin: 2px 0 var(--space-sm); color: var(--muted); font-size: 0.82rem; }
+
+  .fieldrow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); }
+  .fieldrow.one { grid-template-columns: 1fr; }
+  .fieldbox {
+    display: flex; flex-direction: column; gap: 2px;
+    min-height: var(--tap-target); padding: var(--space-xs) var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-sm);
+    background: var(--card);
+  }
+  .fieldbox span { color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .fieldbox b { font-size: 0.95rem; font-weight: 600; }
+  .fieldbox.empty b { color: var(--muted); font-weight: 400; }
+
+  .preview {
+    margin-top: var(--space-sm); padding: var(--space-sm);
+    border-radius: var(--radius-md); background: var(--card2);
+  }
+  .preview p { margin: 0 0 2px; color: var(--muted); font-size: 0.78rem; }
+  .preview b { font-size: 0.92rem; }
+  .preview .line + .line { margin-top: 6px; }
+
+  .actions { display: flex; gap: var(--space-xs); margin-top: var(--space-md); }
+  .btn {
+    flex: 1; min-height: var(--tap-target); padding: 0 var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-pill);
+    background: none; color: var(--ink);
+    font-family: inherit; font-size: 0.92rem; font-weight: 600; cursor: default;
+  }
+  .btn.primary { border-color: transparent; background: var(--acc); color: #fff; }
+  [data-cake="dark"] .btn.primary { color: var(--on-signal); }
+  .btn.primary[aria-disabled="true"] { background: var(--line); color: var(--muted); }
+  .btn.cancel { flex: 0 0 auto; }
+
+  .caption { margin: var(--space-sm) 0 0; color: var(--muted); font-size: 0.78rem; line-height: 1.5; }
+  .caption b { color: var(--ink); font-weight: 600; }
+
+  /* Day chips, option A. */
+  .alsohead {
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xs);
+    margin: var(--space-md) 0 var(--space-xs);
+  }
+  .alsohead h4 { margin: 0; font-size: 0.8rem; font-weight: 700; }
+  .alsohead em { font-style: normal; color: var(--muted); font-size: 0.75rem; }
+  .alsohead em.near { color: var(--page-warn); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin: 0; padding: 0; list-style: none; }
+  .chip {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 1px;
+    min-height: var(--tap-target); padding: 5px var(--space-sm);
+    border: var(--hairline) dashed var(--acc); border-radius: var(--radius-pill);
+    background: none; color: var(--ink);
+    font-family: inherit; font-size: 0.85rem; text-align: left; cursor: default;
+  }
+  .chip b { font-weight: 600; }
+  .chip small { color: var(--muted); font-size: 0.68rem; }
+  .chip[aria-pressed="true"] { border-style: solid; border-color: var(--acc); background: var(--acc-wash); }
+  .chip[aria-disabled="true"] { border-style: solid; border-color: var(--line); color: var(--muted); }
+  .chip[aria-disabled="true"] b { text-decoration: line-through; }
+
+  /* Month grid, option B. */
+  .grid { margin-top: var(--space-sm); }
+  .grid-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--space-xs); font-size: 0.85rem; font-weight: 700;
+  }
+  .grid-head span { color: var(--muted); font-size: 1rem; }
+  .dow, .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .dow div {
+    padding-bottom: 2px; text-align: center;
+    color: var(--muted); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .day {
+    display: grid; place-items: center; aspect-ratio: 1;
+    border: var(--hairline) solid transparent; border-radius: var(--radius-sm);
+    background: none; color: var(--ink);
+    font-family: inherit; font-size: 0.85rem; cursor: default;
+  }
+  .day.open { border-color: var(--line); background: var(--card); }
+  .day[aria-pressed="true"] { border-color: var(--acc); background: var(--acc-wash); font-weight: 700; }
+  .day.shut { color: var(--muted); opacity: 0.45; }
+  .day.pad { visibility: hidden; }
+  .legend { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xs); color: var(--muted); font-size: 0.7rem; }
+  .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; border-radius: 3px; vertical-align: -1px; }
+  .legend .k-open { border: 1px solid var(--line); background: var(--card); }
+  .legend .k-pick { border: 1px solid var(--acc); background: var(--acc-wash); }
+  .legend .k-shut { background: var(--line); }
+
+  .decisions { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--page-line); }
+  .decisions h2 { margin: 0 0 4px; font-family: var(--font-display); font-size: 28px; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; }
+  .decisions > p { margin: 0 0 20px; max-width: 62ch; color: var(--page-muted); font-size: 15px; line-height: 1.55; }
+  .qs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .q { padding: 16px 18px; border: 1px solid var(--page-line); border-radius: 14px; background: var(--page-card); }
+  .q h3 { margin: 0 0 6px; font-size: 15px; font-weight: 700; }
+  .q p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.55; color: var(--page-muted); }
+  .q p:last-child { margin-bottom: 0; }
+  .q .rec { color: var(--page-fg); }
+  .q .rec b { color: var(--page-accent); }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Offering one time across several days</h1>
+    <blockquote class="said">
+      “It would also be nice if we could select multiple days at once in the calendar if we're going to offer the same
+      time on those days instead of having to go back and pick up and set the time individually.”
+      <cite>ko.kismet, Discord, 17 October · CAK-1630</cite>
+    </blockquote>
+    <p>She already knows the time she wants to offer and the days she is willing to give. Today that is
+      <b>one trip through Add a time per day</b>. Three shapes below, at the width she meets them. The
+      <b>Now</b> frame is the panel as it ships today, for comparison.</p>
+  </header>
+
+  <div class="controls">
+    <span>Studio theme</span>
+    <div class="seg" role="group" aria-label="Studio theme">
+      <button type="button" data-theme-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+
+  <div class="strip">
+
+    <!-- ---------------------------------------------------------------- -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag now">Now</span>
+        <h2>One day per trip</h2>
+        <p class="note">The panel as it ships. A date, a start time, one row added. To offer 2pm on four days she
+          opens this four times and retypes the time four times.</p>
+      </figcaption>
+      <div class="phone">
+        <h3 class="sheet-title">Add a time</h3>
+        <p class="sheet-under">3 hrs, in Pacific time</p>
+        <div class="fieldrow">
+          <div class="fieldbox"><span>Date</span><b>Thu, Oct 22</b></div>
+          <div class="fieldbox"><span>Start time</span><b>2:00 PM</b></div>
+        </div>
+        <div class="preview">
+          <p>Wren will see</p>
+          <b>Thursday, Oct 22 · 2:00 PM to 5:00 PM</b>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn cancel">Cancel</button>
+          <button type="button" class="btn primary">Add this time</button>
+        </div>
+        <p class="caption">Then: close, reopen, pick Friday, retype 2:00 PM, add. <b>Four times over.</b></p>
+      </div>
+      <p class="cost"><b>Build:</b> nothing. <b>Cost to her:</b> four trips, and the time retyped each trip.</p>
+    </figure>
+
+    <!-- ---------------------------------------------------------------- -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag opt">Option A</span>
+        <h2>Also on these days</h2>
+        <p class="note">She sets the day and time once, as now. Underneath, the next open days at <b>that same
+          clock time</b> appear as chips. Tap the ones she wants; the button counts up. Nothing changes until she
+          has set a time, so the panel opens exactly as it does today.</p>
+      </figcaption>
+      <div class="phone">
+        <h3 class="sheet-title">Add a time</h3>
+        <p class="sheet-under">3 hrs, in Pacific time</p>
+        <div class="fieldrow">
+          <div class="fieldbox"><span>Date</span><b>Thu, Oct 22</b></div>
+          <div class="fieldbox"><span>Start time</span><b>2:00 PM</b></div>
+        </div>
+
+        <div class="alsohead">
+          <h4>Also at 2:00 PM on</h4>
+          <em class="near">4 of your 8</em>
+        </div>
+        <ul class="chips">
+          <li><button type="button" class="chip" aria-pressed="true"><b>Fri 23</b></button></li>
+          <li><button type="button" class="chip" aria-pressed="true"><b>Sat 24</b></button></li>
+          <li><button type="button" class="chip" aria-pressed="false"><b>Mon 26</b></button></li>
+          <li><button type="button" class="chip" aria-pressed="true"><b>Tue 27</b></button></li>
+          <li><button type="button" class="chip" aria-disabled="true"><b>Wed 28</b><small>Booked</small></button></li>
+          <li><button type="button" class="chip" aria-disabled="true"><b>Thu 29</b><small>Closed</small></button></li>
+        </ul>
+
+        <div class="preview">
+          <p>Wren will see</p>
+          <div class="line"><b>Thursday, Oct 22 · 2:00 PM to 5:00 PM</b></div>
+          <div class="line"><b>Friday, Oct 23 · 2:00 PM to 5:00 PM</b></div>
+          <div class="line"><b>Saturday, Oct 24 · 2:00 PM to 5:00 PM</b></div>
+          <div class="line"><b>Tuesday, Oct 27 · 2:00 PM to 5:00 PM</b></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn cancel">Cancel</button>
+          <button type="button" class="btn primary">Add 4 times</button>
+        </div>
+        <p class="caption">A day that cannot take the time says why <b>on its own chip</b>, before she taps, and
+          cannot be chosen. The count turns amber as she nears her eight.</p>
+      </div>
+      <p class="cost"><b>Build:</b> one chip row, reusing the open-times chip grammar already on this screen.
+        <b>Cost to her:</b> one trip. <b>Risk:</b> only shows days Cake offers her — she cannot reach an
+        arbitrary far-off day without a second trip.</p>
+    </figure>
+
+    <!-- ---------------------------------------------------------------- -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag opt">Option B</span>
+        <h2>A month she taps</h2>
+        <p class="note">The date field becomes a month grid. She taps every day she wants, sets the time once
+          below, and adds. This is closest to her literal words — “select multiple days at once in the
+          calendar”.</p>
+      </figcaption>
+      <div class="phone">
+        <h3 class="sheet-title">Add a time</h3>
+        <p class="sheet-under">3 hrs, in Pacific time</p>
+
+        <div class="grid">
+          <div class="grid-head"><span aria-hidden="true">‹</span> October 2026 <span aria-hidden="true">›</span></div>
+          <div class="dow"><div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div></div>
+          <div class="days">
+            <button type="button" class="day pad" tabindex="-1" aria-hidden="true">.</button>
+            <button type="button" class="day pad" tabindex="-1" aria-hidden="true">.</button>
+            <button type="button" class="day pad" tabindex="-1" aria-hidden="true">.</button>
+            <button type="button" class="day pad" tabindex="-1" aria-hidden="true">.</button>
+            <button type="button" class="day shut">1</button>
+            <button type="button" class="day shut">2</button>
+            <button type="button" class="day shut">3</button>
+            <button type="button" class="day shut">4</button>
+            <button type="button" class="day shut">5</button>
+            <button type="button" class="day shut">6</button>
+            <button type="button" class="day shut">7</button>
+            <button type="button" class="day shut">8</button>
+            <button type="button" class="day shut">9</button>
+            <button type="button" class="day shut">10</button>
+            <button type="button" class="day shut">11</button>
+            <button type="button" class="day shut">12</button>
+            <button type="button" class="day shut">13</button>
+            <button type="button" class="day shut">14</button>
+            <button type="button" class="day shut">15</button>
+            <button type="button" class="day shut">16</button>
+            <button type="button" class="day shut">17</button>
+            <button type="button" class="day shut">18</button>
+            <button type="button" class="day shut">19</button>
+            <button type="button" class="day open">20</button>
+            <button type="button" class="day open">21</button>
+            <button type="button" class="day open" aria-pressed="true">22</button>
+            <button type="button" class="day open" aria-pressed="true">23</button>
+            <button type="button" class="day open" aria-pressed="true">24</button>
+            <button type="button" class="day shut">25</button>
+            <button type="button" class="day open">26</button>
+            <button type="button" class="day open" aria-pressed="true">27</button>
+            <button type="button" class="day shut">28</button>
+            <button type="button" class="day shut">29</button>
+            <button type="button" class="day open">30</button>
+            <button type="button" class="day open">31</button>
+          </div>
+          <p class="legend">
+            <span><i class="k-pick"></i>Chosen</span>
+            <span><i class="k-open"></i>Open</span>
+            <span><i class="k-shut"></i>Closed or booked</span>
+          </p>
+        </div>
+
+        <div class="alsohead">
+          <h4>Start time on all four</h4>
+          <em class="near">4 of your 8</em>
+        </div>
+        <div class="fieldrow one">
+          <div class="fieldbox"><span>Start time</span><b>2:00 PM</b></div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn cancel">Cancel</button>
+          <button type="button" class="btn primary">Add 4 times</button>
+        </div>
+        <p class="caption">Closed and booked days are dimmed and cannot be tapped, so there is no reason to
+          report after the fact — but a dimmed day does not say <b>why</b> it is dimmed.</p>
+      </div>
+      <p class="cost"><b>Build:</b> a new multi-select calendar — its own keyboard model, month paging, and
+        screen-reader grammar. <b>Cost to her:</b> one trip, any day reachable. <b>Risk:</b> replaces the native
+        date picker she already knows, on the one screen three artists have already been stuck on.</p>
+    </figure>
+
+  </div>
+
+  <section class="decisions">
+    <h2>The three calls</h2>
+    <p>The issue says this one needs a drawing before code. These are the decisions the drawing is for — my
+      recommendation on each, but the first is genuinely yours.</p>
+    <div class="qs">
+      <div class="q">
+        <h3>1. Which shape</h3>
+        <p>A reuses the chip grammar already on this screen and leaves the familiar date field alone. B matches
+          her words more literally and reaches any day, at the cost of a new calendar component on a screen that
+          has already confused people.</p>
+        <p class="rec">I'd build <b>A</b>, and keep “pick another day” as the existing field for anything the
+          chips don't cover.</p>
+      </div>
+      <div class="q">
+        <h3>2. The cap</h3>
+        <p>Eight offered times is the limit. Four days chosen at once is half her allowance, and today going over
+          turns an added row into a held one — a poor way to find out.</p>
+        <p class="rec">Say <b>“4 of your 8”</b> live beside the chips, turn it amber near the limit, and stop
+          accepting taps at eight rather than adding and benching.</p>
+      </div>
+      <div class="q">
+        <h3>3. Days that can't take it</h3>
+        <p>A chosen day may be closed, already booked, or run past her hours. Across several days that could be
+          several reasons at once.</p>
+        <p class="rec">Put the reason <b>on the day itself</b>, before she taps — “Booked”, “Closed” — rather
+          than collecting refusals into a list afterwards. A does this; B only dims.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const root = document.documentElement;
+  for (const button of document.querySelectorAll("[data-theme-set]")) {
+    button.addEventListener("click", () => {
+      const next = button.dataset.themeSet;
+      root.setAttribute("data-cake", next);
+      for (const other of document.querySelectorAll("[data-theme-set]")) {
+        other.setAttribute("aria-pressed", String(other === button));
+      }
+    });
+  }
+  root.setAttribute("data-cake", "light");
+</script>
