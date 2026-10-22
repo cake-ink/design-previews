@@ -1,0 +1,466 @@
+<title>Sittings on the approval screen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;750&family=Bebas+Neue&display=swap">
+<style>
+  /* CAK-1759, the approval half. Quick add is the artist booking into her own
+     book; this is the screen where a client is involved, and where the same
+     list of times has to mean two different things. 390px studio frames, plus
+     the client's own page for the halves that change it. */
+  :root {
+    --page-bg: #F7F2EA;
+    --page-fg: #002325;
+    --page-muted: #5E7370;
+    --page-line: #D8D1C0;
+    --page-card: #FFFCF6;
+    --page-accent: #5241C9;
+    --page-warn: #8A5A00;
+    --page-danger: #A3331F;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Bebas Neue', 'Oswald', 'Arial Narrow', Impact, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page-bg: #002325; --page-fg: #F3EEE4; --page-muted: #A3B4AF;
+      --page-line: #314C4B; --page-card: #163536; --page-accent: #B4A9FF;
+      --page-warn: #E8C07A; --page-danger: #FF9B88; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #002325; --page-fg: #F3EEE4; --page-muted: #A3B4AF;
+    --page-line: #314C4B; --page-card: #163536; --page-accent: #B4A9FF;
+    --page-warn: #E8C07A; --page-danger: #FF9B88; color-scheme: dark;
+  }
+
+  body { margin: 0; background: var(--page-bg); color: var(--page-fg); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+  .wrap {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 28px 56px; max-width: 1500px; margin: 0 auto;
+  }
+  header h1 {
+    margin: 0; font-family: var(--font-display); font-size: clamp(34px, 7vw, 54px);
+    font-weight: 400; letter-spacing: 0.5px; line-height: 0.94; text-transform: uppercase; text-wrap: balance;
+  }
+  header .said {
+    margin: 14px 0 0; padding-left: 14px; border-left: 3px solid var(--page-accent);
+    max-width: 62ch; font-size: 16px; line-height: 1.55;
+  }
+  header .said cite { display: block; margin-top: 6px; color: var(--page-muted); font-size: 13px; font-style: normal; }
+  header p { margin: 12px 0 0; max-width: 62ch; color: var(--page-muted); font-size: 15px; line-height: 1.55; }
+  header p b { color: var(--page-fg); font-weight: 600; }
+
+  .danger {
+    margin: 18px 0 0; padding: 14px 16px; max-width: 72ch;
+    border: 1px solid var(--page-danger); border-radius: 12px;
+    background: color-mix(in srgb, var(--page-danger) 10%, var(--page-card));
+    font-size: 14.5px; line-height: 1.55;
+  }
+  .danger b { color: var(--page-danger); }
+
+  .controls {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    margin-top: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--page-line);
+  }
+  .controls span { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--page-muted); }
+  .seg { display: flex; border: 1px solid var(--page-line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    min-height: 36px; padding: 0 16px; border: 0; background: none;
+    color: var(--page-muted); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--page-accent); color: var(--page-bg); }
+  .seg button:focus-visible { outline: 2px solid var(--page-accent); outline-offset: -2px; }
+
+  .strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px; margin-top: 28px; align-items: start; }
+  .frame { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .frame > figcaption { display: flex; flex-direction: column; gap: 6px; }
+  .tag { align-self: flex-start; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .tag.now { background: var(--page-line); color: var(--page-fg); }
+  .tag.opt { background: var(--page-accent); color: var(--page-bg); }
+  .tag.client { background: var(--page-fg); color: var(--page-bg); }
+  .frame h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.1px; }
+  .frame .note { margin: 0; color: var(--page-muted); font-size: 13.5px; line-height: 1.55; }
+  .frame .note b { color: var(--page-fg); font-weight: 600; }
+  .cost { margin: 0; font-size: 13px; line-height: 1.5; color: var(--page-muted); }
+  .cost b { color: var(--page-fg); font-weight: 600; }
+
+  /* ---- the studio surface ---- */
+  .phone {
+    --lime: #DEFA48; --on-signal: #002325; --ink: #002325; --muted: #5E7370;
+    --line: #D8D1C0; --card: #FFFCF6; --card2: #F1EBDF; --bg: #F7F2EA;
+    --acc: #7360F7; --acc-deep: #5241C9; --acc-wash: rgba(115,96,247,.14); --coral: #FF6B5A;
+    --hairline: 1px; --radius-md: 14px; --radius-sm: 12px; --radius-pill: 999px; --tap-target: 44px;
+    --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+    max-width: 390px; width: 100%; padding: var(--space-md);
+    border: 1px solid var(--line); border-radius: 20px;
+    background: var(--bg); color: var(--ink); font-size: 15px;
+  }
+  [data-cake="dark"] .phone {
+    --lime: #D4EC5C; --ink: #F3EEE4; --muted: #A3B4AF; --line: #314C4B;
+    --card: #163536; --card2: #1D3B3C; --bg: #002325;
+    --acc: #8B7BFF; --acc-deep: #B4A9FF; --acc-wash: rgba(139,123,255,.20); --coral: #FF8A7A;
+  }
+  /* The client's page is her public paper, not the studio shell. */
+  .phone.client { --bg: #FFFCF6; --card: #F7F2EA; border-width: 2px; }
+  [data-cake="dark"] .phone.client { --bg: #0C2A2B; --card: #163536; }
+
+  .sheet-title { margin: 0; font-size: 0.8rem; font-weight: 700; }
+  .sheet-under { margin: 2px 0 var(--space-sm); color: var(--muted); font-size: 0.82rem; }
+
+  .listhead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xs); margin: var(--space-md) 0 var(--space-xs); }
+  .listhead h4 { margin: 0; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .listhead .count { font-size: 0.74rem; font-weight: 600; color: var(--muted); }
+
+  .going { display: flex; flex-direction: column; gap: var(--space-2xs); }
+  .going .pick {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs);
+    min-height: var(--tap-target); padding: var(--space-xs) var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-sm); background: var(--card);
+  }
+  .going .pick .when { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .going .pick .when b { font-size: 0.9rem; font-weight: 700; }
+  .going .pick .when small { color: var(--muted); font-size: 0.78rem; }
+  .going .pick .x {
+    flex: 0 0 auto; width: 30px; height: 30px; display: grid; place-items: center;
+    border: 0; border-radius: 50%; background: none; color: var(--muted); font-size: 1rem; font-family: inherit; cursor: default;
+  }
+  .going .pick .ordinal {
+    flex: 0 0 auto; width: 22px; height: 22px; display: grid; place-items: center;
+    border-radius: 50%; background: var(--acc-wash); color: var(--acc-deep);
+    font-size: 0.7rem; font-weight: 700; margin-right: 2px;
+  }
+
+  .addbtn {
+    width: 100%; min-height: var(--tap-target); margin-top: var(--space-xs);
+    border: var(--hairline) dashed var(--line); border-radius: var(--radius-pill);
+    background: none; color: var(--ink); font-family: inherit; font-size: 0.9rem; font-weight: 600; cursor: default;
+  }
+
+  /* The sittings question. */
+  .ask {
+    margin-bottom: var(--space-sm); padding: var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-md); background: var(--card);
+  }
+  .ask .lede { margin: 0 0 var(--space-xs); font-size: 0.84rem; font-weight: 600; }
+  .choice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); }
+  .choice button {
+    min-height: var(--tap-target); padding: var(--space-xs);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-sm);
+    background: var(--bg); color: var(--ink); font-family: inherit; cursor: default;
+    display: flex; flex-direction: column; gap: 1px; align-items: flex-start; text-align: left;
+  }
+  .choice button b { font-size: 0.86rem; font-weight: 700; }
+  .choice button small { color: var(--muted); font-size: 0.7rem; line-height: 1.3; }
+  .choice button[aria-pressed="true"] { border-color: var(--acc); background: var(--acc-wash); }
+  .choice button[aria-pressed="true"] b { color: var(--acc-deep); }
+
+  .stepper {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-2xs);
+    min-height: var(--tap-target); margin-top: var(--space-xs); padding: 0 var(--space-xs);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-sm); background: var(--bg);
+  }
+  .stepper button {
+    width: 28px; height: 28px; display: grid; place-items: center; flex: 0 0 auto;
+    border: 0; border-radius: 50%; background: var(--acc-wash); color: var(--acc-deep);
+    font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: default;
+  }
+  .stepper .val { font-size: 0.86rem; font-weight: 700; }
+
+  .says {
+    margin-top: var(--space-sm); padding: var(--space-sm);
+    border-radius: var(--radius-md); background: var(--card2);
+    font-size: 0.82rem; line-height: 1.5;
+  }
+  .says p { margin: 0; }
+  .says .who { margin: 0 0 4px; color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* The client's offer cards. */
+  .timecard {
+    display: flex; align-items: center; gap: var(--space-sm);
+    min-height: 56px; padding: var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-md);
+    background: var(--card); margin-bottom: var(--space-xs);
+  }
+  .timecard .radio {
+    flex: 0 0 auto; width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--muted); display: grid; place-items: center;
+  }
+  .timecard .radio.on { border-color: var(--acc); }
+  .timecard .radio.on::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--acc); }
+  .timecard .tick {
+    flex: 0 0 auto; width: 20px; height: 20px; border-radius: 6px; background: var(--acc);
+    color: #fff; display: grid; place-items: center; font-size: 0.72rem; font-weight: 700;
+  }
+  [data-cake="dark"] .timecard .tick { color: var(--on-signal); }
+  .timecard .oc { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .timecard .oc-day { font-size: 0.92rem; font-weight: 700; }
+  .timecard .oc-time { color: var(--muted); font-size: 0.8rem; }
+  .timecard .nth { margin-left: auto; color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .clientline { margin: 0 0 var(--space-sm); font-size: 0.92rem; line-height: 1.5; }
+  .clientline b { font-weight: 700; }
+
+  .actions { display: flex; gap: var(--space-xs); margin-top: var(--space-md); }
+  .btn {
+    flex: 1; min-height: var(--tap-target); padding: 0 var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-pill);
+    background: none; color: var(--ink); font-family: inherit; font-size: 0.92rem; font-weight: 600; cursor: default;
+  }
+  .btn.primary { border-color: transparent; background: var(--acc); color: #fff; }
+  [data-cake="dark"] .btn.primary { color: var(--on-signal); }
+  .btn.cancel { flex: 0 0 auto; }
+  .caption { margin: var(--space-sm) 0 0; color: var(--muted); font-size: 0.78rem; line-height: 1.5; }
+  .caption b { color: var(--ink); font-weight: 600; }
+
+  section.calls { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--page-line); }
+  section.calls h3 { margin: 0 0 4px; font-family: var(--font-display); font-weight: 400; font-size: 26px; letter-spacing: 0.4px; text-transform: uppercase; }
+  .calls .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; margin-top: 18px; }
+  .call { padding: 16px; border: 1px solid var(--page-line); border-radius: 14px; background: var(--page-card); }
+  .call h4 { margin: 0 0 6px; font-size: 14.5px; font-weight: 700; }
+  .call p { margin: 0 0 8px; color: var(--page-muted); font-size: 13.5px; line-height: 1.55; }
+  .call p:last-child { margin-bottom: 0; }
+  .call .rec { color: var(--page-fg); }
+  .call .rec b { font-weight: 700; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Sittings on the approval screen</h1>
+    <blockquote class="said">
+      “what about on the approval time offers screens?”
+      <cite>Micah, 2026-10-22 · CAK-1759</cite>
+    </blockquote>
+    <p>Quick add is her booking into her own book, so a list of times there can only mean sittings. Approval
+      is the screen with a client on the other end, and there the same list already means something else.</p>
+
+    <div class="danger">
+      <b>The whole problem in one sentence.</b> On approval, a list of four times means
+      “<i>four options, pick one</i>”. For a four-sitting piece it would mean “<i>four sittings, all of
+      them</i>”. Same control, opposite meaning — and the client’s page encodes it as a single chosen index
+      (<code>encodeOfferSelection(revision, index, offer)</code>), with a lone offer arriving pre-picked.
+      Get the mode wrong and she either sends four options believing she booked a piece, or books a client
+      into four sittings they thought were choices.
+    </div>
+
+    <p>That is the one-tap-send failure again in a new place: <b>an outward message whose meaning the artist
+      misread</b>. So every shape below is judged first on whether the two meanings can be confused.</p>
+  </header>
+
+  <div class="controls">
+    <span>Studio theme</span>
+    <div class="seg" role="group" aria-label="Studio theme">
+      <button type="button" data-theme-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+
+  <div class="strip">
+
+    <!-- ============ TODAY ============ -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag now">Today</span>
+        <h2>Options, and the client picks one</h2>
+        <p class="note">What ships now. Everything under <b>Going to Jordan</b> is an alternative. The client
+          sees radios and chooses exactly one; the rest are released.</p>
+      </figcaption>
+
+      <div class="phone">
+        <p class="sheet-title">Approve and offer times</p>
+        <p class="sheet-under">Jordan Avery · Half sleeve, blackwork</p>
+        <div class="listhead"><h4>Going to Jordan</h4><span class="count">4 of 8</span></div>
+        <div class="going">
+          <div class="pick"><span class="when"><b>Sat, Nov 8</b><small>11:00 AM – 4:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+          <div class="pick"><span class="when"><b>Sun, Nov 9</b><small>12:00 PM – 5:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+          <div class="pick"><span class="when"><b>Sat, Nov 15</b><small>11:00 AM – 4:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+          <div class="pick"><span class="when"><b>Sat, Nov 22</b><small>11:00 AM – 4:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+        </div>
+        <button class="addbtn" type="button">+ Add a date</button>
+        <div class="actions"><button class="btn cancel" type="button">Cancel</button><button class="btn primary" type="button">Send 4 times</button></div>
+        <p class="caption">Jordan picks one. The other three go back in the book.</p>
+      </div>
+
+      <p class="cost"><b>The ambiguity is already here.</b> Nothing on this screen says the four times are
+        alternatives — it is learned, not stated. Adding a second meaning to the same list without saying
+        which is which is what makes this dangerous.</p>
+    </figure>
+
+    <!-- ============ A ============ -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag opt">A · recommended</span>
+        <h2>Ask how many sittings, first</h2>
+        <p class="note">One question above the times, answered before she picks any. <b>One sitting</b> is the
+          default and leaves this screen exactly as it is today. <b>Several</b> re-labels the list, changes
+          the button, and changes what the client is sent.</p>
+      </figcaption>
+
+      <div class="phone">
+        <p class="sheet-title">Approve and offer times</p>
+        <p class="sheet-under">Jordan Avery · Half sleeve, blackwork</p>
+
+        <div class="ask">
+          <p class="lede">How many sittings will this piece take?</p>
+          <div class="choice">
+            <button type="button" aria-pressed="false"><b>One</b><small>Offer times, Jordan picks one</small></button>
+            <button type="button" aria-pressed="true"><b>Several</b><small>Book a set of sittings</small></button>
+          </div>
+          <div class="stepper">
+            <button type="button" aria-label="Fewer sittings">−</button>
+            <span class="val">4 sittings</span>
+            <button type="button" aria-label="More sittings">+</button>
+          </div>
+        </div>
+
+        <div class="listhead"><h4>The four sittings</h4><span class="count">4 of 4 set</span></div>
+        <div class="going">
+          <div class="pick"><span class="ordinal">1</span><span class="when"><b>Sat, Nov 8</b><small>11:00 AM – 4:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+          <div class="pick"><span class="ordinal">2</span><span class="when"><b>Sat, Nov 29</b><small>11:00 AM – 4:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+          <div class="pick"><span class="ordinal">3</span><span class="when"><b>Sat, Dec 20</b><small>11:00 AM – 4:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+          <div class="pick"><span class="ordinal">4</span><span class="when"><b>Sat, Jan 10</b><small>11:00 AM – 4:00 PM</small></span><button class="x" type="button" aria-label="Remove">×</button></div>
+        </div>
+
+        <div class="says">
+          <p class="who">Jordan will be asked to</p>
+          <p>confirm all four sittings. There is nothing to choose between.</p>
+        </div>
+
+        <div class="actions"><button class="btn cancel" type="button">Cancel</button><button class="btn primary" type="button">Send the 4 sittings</button></div>
+        <p class="caption">Numbered rows, “sittings” not “times”, and a line saying what Jordan is asked.</p>
+      </div>
+
+      <p class="cost"><b>Why this one:</b> the mode is stated before she picks, and three separate things
+        change with it — the heading, the button, and the line naming what the client is asked. It is hard to
+        be in the wrong mode without seeing it. <b>Cost:</b> a question on a screen that did not have one.</p>
+    </figure>
+
+    <!-- ============ A, CLIENT ============ -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag client">A · Jordan’s page</span>
+        <h2>Confirm the set, nothing to choose</h2>
+        <p class="note">The radios are gone, because there is no choice to make. Four dated cards, numbered,
+          and one button. This is the half that needs the client page and the offer encoding to change.</p>
+      </figcaption>
+
+      <div class="phone client">
+        <p class="clientline"><b>Mara has four sittings for you.</b> They run every three weeks, starting
+          Saturday 8 November.</p>
+        <div class="timecard"><span class="tick">✓</span><span class="oc"><span class="oc-day">Sat, 8 November</span><span class="oc-time">11:00 AM – 4:00 PM · PT</span></span><span class="nth">1st</span></div>
+        <div class="timecard"><span class="tick">✓</span><span class="oc"><span class="oc-day">Sat, 29 November</span><span class="oc-time">11:00 AM – 4:00 PM · PT</span></span><span class="nth">2nd</span></div>
+        <div class="timecard"><span class="tick">✓</span><span class="oc"><span class="oc-day">Sat, 20 December</span><span class="oc-time">11:00 AM – 4:00 PM · PT</span></span><span class="nth">3rd</span></div>
+        <div class="timecard"><span class="tick">✓</span><span class="oc"><span class="oc-day">Sat, 10 January</span><span class="oc-time">11:00 AM – 4:00 PM · PT</span></span><span class="nth">4th</span></div>
+        <div class="actions"><button class="btn primary" type="button">Confirm all four</button></div>
+        <p class="caption">A $200 deposit holds the piece. Need a different date? Reply and Mara will send new
+          times.</p>
+      </div>
+
+      <p class="cost"><b>What changes server-side:</b> the page posts one index today. A set needs its own
+        shape, and the confirmation email names four dates rather than one. This is the Phase 3 work on
+        CAK-1759, and the only part of A that cannot ship on its own.</p>
+    </figure>
+
+    <!-- ============ C ============ -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag opt">C · ships first</span>
+        <h2>Leave approval alone; add sittings after</h2>
+        <p class="note">Approval does not change at all. Jordan picks a first time exactly as today, and once
+          it is booked the appointment offers <b>Add sittings</b> — the Quick add path, on a request that
+          already exists.</p>
+      </figcaption>
+
+      <div class="phone">
+        <p class="sheet-title">Appointment · Jordan Avery</p>
+        <p class="sheet-under">Booked · Sat, Nov 8 · 11:00 AM – 4:00 PM</p>
+
+        <div class="listhead"><h4>Sittings</h4><span class="count">1 of 6</span></div>
+        <div class="going">
+          <div class="pick"><span class="ordinal">1</span><span class="when"><b>Sat, Nov 8</b><small>11:00 AM – 4:00 PM · booked</small></span></div>
+        </div>
+        <button class="addbtn" type="button">+ Add sittings</button>
+
+        <div class="says">
+          <p class="who">When you add them</p>
+          <p>Jordan is told once, with all the new dates in one message. Nothing already booked moves.</p>
+        </div>
+
+        <div class="actions"><button class="btn cancel" type="button">Message</button><button class="btn primary" type="button">Add sittings</button></div>
+        <p class="caption">The client’s page never changes. The deposit already taken stays on the piece.</p>
+      </div>
+
+      <p class="cost"><b>Cheapest by far</b> — no client-page change, no new encoding, no new meaning for the
+        offer list. <b>Cost:</b> the plan is not agreed up front, which is how big pieces are actually sold,
+        and the client hears twice.</p>
+    </figure>
+
+  </div>
+
+  <section class="calls">
+    <h3>The calls behind the drawings</h3>
+    <div class="grid">
+
+      <div class="call">
+        <h4>C first, then A</h4>
+        <p>C needs nothing from the client page and reuses the Quick add work from the other preview, so it
+          can ship in the same wave. A is the right end state, and its artist half can land before its client
+          half.</p>
+        <p class="rec"><b>Recommendation: build C with Quick add, then A.</b> That gets several sittings into
+          her hands early without touching the one screen a client reads.</p>
+      </div>
+
+      <div class="call">
+        <h4>Never let the two meanings share an unlabelled list</h4>
+        <p>The danger is not that a mode exists; it is a mode that looks the same either way. In A the
+          heading, the ordinals, the button and the line naming what the client is asked all move together.</p>
+        <p class="rec">If only one of those four changed, this would be the one-tap bug again, in a screen
+          that sends mail.</p>
+      </div>
+
+      <div class="call">
+        <h4>The client page is the real cost</h4>
+        <p>Today it renders radios over <code>timeOffers</code> and posts a single index, and a lone offer
+          arrives pre-picked. A set is a different payload, a different confirmation email, and a different
+          answer to “can I change just the third one?”.</p>
+        <p class="rec">Worth keeping as its own issue rather than hiding it inside CAK-1759.</p>
+      </div>
+
+      <div class="call">
+        <h4>What “several” does to a refusal</h4>
+        <p>With one sitting, a client who cannot make it asks for new times. With four, they may be fine with
+          three and not the second.</p>
+        <p class="rec">A’s client page should let them flag one sitting rather than reject the set — but that
+          is a decision, not a drawing, and it needs Micah.</p>
+      </div>
+
+      <div class="call">
+        <h4>One sitting must stay untouched</h4>
+        <p>In A, choosing <i>One</i> leaves the screen byte-for-byte as it is today: “Going to Jordan”, 4 of 8,
+          “Send 4 times”, radios on the client’s page.</p>
+        <p class="rec">The common case cannot pay for the rare one.</p>
+      </div>
+
+      <div class="call">
+        <h4>Not drawn: a mixed offer</h4>
+        <p>“Three sittings, and for the first one here are two times to choose from.” It is the most flexible
+          and by some distance the most confusing, on both ends.</p>
+        <p class="rec">Left out deliberately. Worth revisiting only if artists ask for it.</p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<script>
+  const root = document.documentElement;
+  for (const button of document.querySelectorAll("[data-theme-set]")) {
+    button.addEventListener("click", () => {
+      const next = button.dataset.themeSet;
+      root.setAttribute("data-cake", next);
+      for (const other of document.querySelectorAll("[data-theme-set]")) {
+        other.setAttribute("aria-pressed", String(other === button));
+      }
+    });
+  }
+  root.setAttribute("data-cake", "light");
+</script>
