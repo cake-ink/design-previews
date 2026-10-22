@@ -1,0 +1,578 @@
+<title>Multi-sitting Quick add</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;750&family=Bebas+Neue&display=swap">
+<style>
+  /* CAK-1759. Three shapes for booking several sittings for one client in
+     one pass, in 390px studio frames so they are compared at the width she
+     meets them. Page chrome follows the viewer's theme; the frames follow
+     the studio theme the switch selects. */
+  :root {
+    --page-bg: #F7F2EA;
+    --page-fg: #002325;
+    --page-muted: #5E7370;
+    --page-line: #D8D1C0;
+    --page-card: #FFFCF6;
+    --page-accent: #5241C9;
+    --page-warn: #8A5A00;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Bebas Neue', 'Oswald', 'Arial Narrow', Impact, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page-bg: #002325;
+      --page-fg: #F3EEE4;
+      --page-muted: #A3B4AF;
+      --page-line: #314C4B;
+      --page-card: #163536;
+      --page-accent: #B4A9FF;
+      --page-warn: #E8C07A;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #002325;
+    --page-fg: #F3EEE4;
+    --page-muted: #A3B4AF;
+    --page-line: #314C4B;
+    --page-card: #163536;
+    --page-accent: #B4A9FF;
+    --page-warn: #E8C07A;
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--page-fg);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 28px 56px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  header h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(34px, 7vw, 54px);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 0.94;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  header .said {
+    margin: 14px 0 0;
+    padding-left: 14px;
+    border-left: 3px solid var(--page-accent);
+    max-width: 62ch;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  header .said cite { display: block; margin-top: 6px; color: var(--page-muted); font-size: 13px; font-style: normal; }
+  header p { margin: 12px 0 0; max-width: 62ch; color: var(--page-muted); font-size: 15px; line-height: 1.55; }
+  header p b { color: var(--page-fg); font-weight: 600; }
+
+  .controls {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    margin-top: 22px; padding-bottom: 22px;
+    border-bottom: 1px solid var(--page-line);
+  }
+  .controls span {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--page-muted);
+  }
+  .seg { display: flex; border: 1px solid var(--page-line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    min-height: 36px; padding: 0 16px; border: 0; background: none;
+    color: var(--page-muted); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--page-accent); color: var(--page-bg); }
+  .seg button:focus-visible { outline: 2px solid var(--page-accent); outline-offset: -2px; }
+
+  .strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 26px; margin-top: 28px; align-items: start;
+  }
+  .frame { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .frame > figcaption { display: flex; flex-direction: column; gap: 6px; }
+  .tag {
+    align-self: flex-start; padding: 3px 9px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .tag.now { background: var(--page-line); color: var(--page-fg); }
+  .tag.opt { background: var(--page-accent); color: var(--page-bg); }
+  .frame h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.1px; }
+  .frame .note { margin: 0; color: var(--page-muted); font-size: 13.5px; line-height: 1.55; }
+  .frame .note b { color: var(--page-fg); font-weight: 600; }
+  .cost { margin: 0; font-size: 13px; line-height: 1.5; color: var(--page-muted); }
+  .cost b { color: var(--page-fg); font-weight: 600; }
+
+  /* ---- the studio surface, in Cake's own tokens ---- */
+  .phone {
+    --lime: #DEFA48;
+    --on-signal: #002325;
+    --ink: #002325;
+    --muted: #5E7370;
+    --line: #D8D1C0;
+    --card: #FFFCF6;
+    --card2: #F1EBDF;
+    --bg: #F7F2EA;
+    --acc: #7360F7;
+    --acc-deep: #5241C9;
+    --acc-wash: rgba(115,96,247,.14);
+    --coral: #FF6B5A;
+    --hairline: 1px;
+    --radius-md: 14px;
+    --radius-sm: 12px;
+    --radius-pill: 999px;
+    --tap-target: 44px;
+    --space-2xs: 4px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+
+    max-width: 390px; width: 100%;
+    padding: var(--space-md);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--bg); color: var(--ink);
+    font-size: 15px;
+  }
+  [data-cake="dark"] .phone {
+    --lime: #D4EC5C;
+    --ink: #F3EEE4;
+    --muted: #A3B4AF;
+    --line: #314C4B;
+    --card: #163536;
+    --card2: #1D3B3C;
+    --bg: #002325;
+    --acc: #8B7BFF;
+    --acc-deep: #B4A9FF;
+    --acc-wash: rgba(139,123,255,.20);
+    --coral: #FF8A7A;
+  }
+
+  .sheet-title { margin: 0; font-size: 0.8rem; font-weight: 700; }
+  .sheet-under { margin: 2px 0 var(--space-sm); color: var(--muted); font-size: 0.82rem; }
+
+  /* The settled lines above the times: client, piece. Set once. */
+  .settled { display: flex; flex-direction: column; gap: var(--space-2xs); margin-bottom: var(--space-sm); }
+  .settled .row {
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xs);
+    min-height: 34px; padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm); background: var(--card);
+    border: var(--hairline) solid var(--line);
+  }
+  .settled .row span { color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .settled .row b { font-size: 0.9rem; font-weight: 600; text-align: right; }
+
+  .fieldrow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); }
+  .fieldrow.one { grid-template-columns: 1fr; }
+  .fieldbox {
+    display: flex; flex-direction: column; gap: 2px;
+    min-height: var(--tap-target); padding: var(--space-xs) var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-sm);
+    background: var(--card);
+  }
+  .fieldbox span { color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .fieldbox b { font-size: 0.95rem; font-weight: 600; }
+  .fieldbox.empty b { color: var(--muted); font-weight: 400; }
+
+  /* The chosen list, as Time offers draws it (CAK-1293 / CAK-1632). */
+  .listhead {
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xs);
+    margin: var(--space-md) 0 var(--space-xs);
+  }
+  .listhead h4 { margin: 0; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .listhead .count { font-size: 0.74rem; font-weight: 600; color: var(--muted); }
+  .listhead .count.near { color: var(--page-warn); }
+
+  .going { display: flex; flex-direction: column; gap: var(--space-2xs); }
+  .going .pick {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs);
+    min-height: var(--tap-target); padding: var(--space-xs) var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-sm);
+    background: var(--card);
+  }
+  .going .pick.added { background: color-mix(in srgb, var(--lime) 22%, var(--card)); border-color: color-mix(in srgb, var(--lime) 50%, var(--line)); }
+  .going .pick .when { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .going .pick .when b { font-size: 0.9rem; font-weight: 700; }
+  .going .pick .when small { color: var(--muted); font-size: 0.78rem; }
+  .going .pick .mark { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .going .pick .x {
+    flex: 0 0 auto; width: 30px; height: 30px; display: grid; place-items: center;
+    border: 0; border-radius: 50%; background: none; color: var(--muted);
+    font-size: 1rem; font-family: inherit; cursor: default;
+  }
+  .going .pick .ordinal {
+    flex: 0 0 auto; width: 22px; height: 22px; display: grid; place-items: center;
+    border-radius: 50%; background: var(--acc-wash); color: var(--acc-deep);
+    font-size: 0.7rem; font-weight: 700; margin-right: 2px;
+  }
+
+  .addbtn {
+    width: 100%; min-height: var(--tap-target); margin-top: var(--space-xs);
+    border: var(--hairline) dashed var(--line); border-radius: var(--radius-pill);
+    background: none; color: var(--ink);
+    font-family: inherit; font-size: 0.9rem; font-weight: 600; cursor: default;
+  }
+
+  /* Option C's spacing control. */
+  .spacer {
+    margin-top: var(--space-sm); padding: var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-md);
+    background: var(--card);
+  }
+  .spacer .lede { margin: 0 0 var(--space-xs); font-size: 0.82rem; font-weight: 600; }
+  .spacer .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); }
+  .stepper {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-2xs);
+    min-height: var(--tap-target); padding: 0 var(--space-xs);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-sm); background: var(--bg);
+  }
+  .stepper button {
+    width: 28px; height: 28px; display: grid; place-items: center; flex: 0 0 auto;
+    border: 0; border-radius: 50%; background: var(--acc-wash); color: var(--acc-deep);
+    font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: default;
+  }
+  .stepper .val { font-size: 0.86rem; font-weight: 700; text-align: center; }
+  .stepper .val small { display: block; color: var(--muted); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .notice {
+    display: flex; gap: var(--space-xs); margin-top: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--lime) 22%, var(--card));
+    border: var(--hairline) solid color-mix(in srgb, var(--lime) 50%, var(--line));
+    font-size: 0.8rem; line-height: 1.45;
+  }
+  .notice b { font-weight: 700; }
+  .notice .fix { color: var(--acc-deep); font-weight: 700; white-space: nowrap; }
+
+  .zone { margin: var(--space-xs) 0 0; color: var(--muted); font-size: 0.74rem; }
+
+  .actions { display: flex; gap: var(--space-xs); margin-top: var(--space-md); }
+  .btn {
+    flex: 1; min-height: var(--tap-target); padding: 0 var(--space-sm);
+    border: var(--hairline) solid var(--line); border-radius: var(--radius-pill);
+    background: none; color: var(--ink);
+    font-family: inherit; font-size: 0.92rem; font-weight: 600; cursor: default;
+  }
+  .btn.primary { border-color: transparent; background: var(--acc); color: #fff; }
+  [data-cake="dark"] .btn.primary { color: var(--on-signal); }
+  .btn.cancel { flex: 0 0 auto; }
+
+  .caption { margin: var(--space-sm) 0 0; color: var(--muted); font-size: 0.78rem; line-height: 1.5; }
+  .caption b { color: var(--ink); font-weight: 600; }
+
+  /* ---- the calls below ---- */
+  section.calls { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--page-line); }
+  section.calls h3 {
+    margin: 0 0 4px;
+    font-family: var(--font-display); font-weight: 400; font-size: 26px;
+    letter-spacing: 0.4px; text-transform: uppercase;
+  }
+  .calls .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; margin-top: 18px; }
+  .call { padding: 16px; border: 1px solid var(--page-line); border-radius: 14px; background: var(--page-card); }
+  .call h4 { margin: 0 0 6px; font-size: 14.5px; font-weight: 700; }
+  .call p { margin: 0 0 8px; color: var(--page-muted); font-size: 13.5px; line-height: 1.55; }
+  .call p:last-child { margin-bottom: 0; }
+  .call .rec { color: var(--page-fg); }
+  .call .rec b { font-weight: 700; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Booking several sittings in one pass</h1>
+    <blockquote class="said">
+      “it needs to be really easy for an artist to book multiple sessions for one client, and that currently
+      doesn’t exist in the app, so we need to think through ways to actually build this in”
+      <cite>Micah, 2026-10-22 · CAK-1759</cite>
+    </blockquote>
+    <p>Three shapes for Quick add, drawn at the width she meets them. All three assume
+      <b>CAK-1728</b> has landed, which puts the Time offers chosen list into Quick add — so the question is
+      not whether she gets a list, but <b>what she does with it</b>. The client, the piece and the deposit are
+      set once above the times in every shape.</p>
+    <p>Storage already allows this: <code>sessions.request_id</code> is a non-unique index, so N sittings
+      against one request need no migration.</p>
+  </header>
+
+  <div class="controls">
+    <span>Studio theme</span>
+    <div class="seg" role="group" aria-label="Studio theme">
+      <button type="button" data-theme-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+
+  <div class="strip">
+
+    <!-- ============ A ============ -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag opt">A · recommended</span>
+        <h2>The list simply keeps them</h2>
+        <p class="note">Quick add stops collapsing the chosen list to one. She adds each sitting with the
+          <b>+ Add a date</b> control the redesign already gives her, and the list holds them in order.
+          Nothing new is drawn.</p>
+      </figcaption>
+
+      <div class="phone">
+        <p class="sheet-title">Quick add</p>
+        <p class="sheet-under">Booking straight into your book. The client is told once.</p>
+
+        <div class="settled">
+          <div class="row"><span>Client</span><b>Jordan Avery</b></div>
+          <div class="row"><span>Piece</span><b>Half sleeve, blackwork</b></div>
+        </div>
+
+        <div class="listhead">
+          <h4>Sittings</h4>
+          <span class="count">4 of 6</span>
+        </div>
+        <div class="going">
+          <div class="pick">
+            <span class="ordinal">1</span>
+            <span class="when"><b>Sat, Nov 8</b><small>11:00 AM – 4:00 PM</small></span>
+            <button class="x" type="button" aria-label="Remove Sat, Nov 8 from the sittings">×</button>
+          </div>
+          <div class="pick">
+            <span class="ordinal">2</span>
+            <span class="when"><b>Sat, Nov 29</b><small>11:00 AM – 4:00 PM</small></span>
+            <button class="x" type="button" aria-label="Remove Sat, Nov 29 from the sittings">×</button>
+          </div>
+          <div class="pick">
+            <span class="ordinal">3</span>
+            <span class="when"><b>Sat, Dec 20</b><small>11:00 AM – 4:00 PM</small></span>
+            <button class="x" type="button" aria-label="Remove Sat, Dec 20 from the sittings">×</button>
+          </div>
+          <div class="pick added">
+            <span class="ordinal">4</span>
+            <span class="when"><b>Sat, Jan 10</b><small>11:00 AM – 4:00 PM</small></span>
+            <span class="mark">Added</span>
+            <button class="x" type="button" aria-label="Remove Sat, Jan 10 from the sittings">×</button>
+          </div>
+        </div>
+        <button class="addbtn" type="button">+ Add a date</button>
+        <p class="zone">Times in your zone, Los Angeles.</p>
+
+        <div class="settled" style="margin-top:var(--space-md)">
+          <div class="row"><span>Deposit</span><b>$200 · cash, in hand</b></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn cancel" type="button">Cancel</button>
+          <button class="btn primary" type="button">Book 4 sittings</button>
+        </div>
+        <p class="caption">One deposit for the piece. One client, told once.</p>
+      </div>
+
+      <p class="cost"><b>Cost:</b> smallest of the three. The list, the add control and the lime
+        <i>Added</i> mark all come from Time offers. <b>Risk:</b> nothing signals up front that a piece can
+        take several sittings — she has to notice the list keeps growing.</p>
+    </figure>
+
+    <!-- ============ B ============ -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag">B</span>
+        <h2>A card per sitting</h2>
+        <p class="note">Each sitting is its own labelled block with its own date and time, stacked, under an
+          explicit <b>Add another sitting</b>. The most obvious shape, and the most self-explanatory the
+          first time she meets it.</p>
+      </figcaption>
+
+      <div class="phone">
+        <p class="sheet-title">Quick add</p>
+        <p class="sheet-under">Booking straight into your book. The client is told once.</p>
+
+        <div class="settled">
+          <div class="row"><span>Client</span><b>Jordan Avery</b></div>
+          <div class="row"><span>Piece</span><b>Half sleeve, blackwork</b></div>
+        </div>
+
+        <div class="listhead"><h4>Sitting 1</h4></div>
+        <div class="fieldrow">
+          <div class="fieldbox"><span>Date</span><b>Sat, Nov 8</b></div>
+          <div class="fieldbox"><span>Start</span><b>11:00 AM</b></div>
+        </div>
+
+        <div class="listhead"><h4>Sitting 2</h4><span class="count">Remove</span></div>
+        <div class="fieldrow">
+          <div class="fieldbox"><span>Date</span><b>Sat, Nov 29</b></div>
+          <div class="fieldbox"><span>Start</span><b>11:00 AM</b></div>
+        </div>
+
+        <div class="listhead"><h4>Sitting 3</h4><span class="count">Remove</span></div>
+        <div class="fieldrow">
+          <div class="fieldbox"><span>Date</span><b>Sat, Dec 20</b></div>
+          <div class="fieldbox empty"><span>Start</span><b>Set a time</b></div>
+        </div>
+
+        <button class="addbtn" type="button">+ Add another sitting</button>
+        <p class="zone">Times in your zone, Los Angeles.</p>
+
+        <div class="actions">
+          <button class="btn cancel" type="button">Cancel</button>
+          <button class="btn primary" type="button">Book 3 sittings</button>
+        </div>
+        <p class="caption">Each sitting carries its own length, so one can run longer than the rest.</p>
+      </div>
+
+      <p class="cost"><b>Cost:</b> it is a second time-picking layout, which is the thing CAK-1728 and the
+        2026-10-21 ruling exist to stop. Also the tallest: three sittings already fill the screen.
+        <b>Buys:</b> per-sitting length, which A would need a sheet for.</p>
+    </figure>
+
+    <!-- ============ C ============ -->
+    <figure class="frame">
+      <figcaption>
+        <span class="tag opt">C · pairs with A</span>
+        <h2>Set the first, space the rest</h2>
+        <p class="note">She sets one sitting, then says how far apart and how many. Cake writes the dates into
+          the same list as A, where she can move or drop any of them. <b>Nothing recurring is stored</b> —
+          it generates concrete dates and then gets out of the way.</p>
+      </figcaption>
+
+      <div class="phone">
+        <p class="sheet-title">Quick add</p>
+        <p class="sheet-under">Booking straight into your book. The client is told once.</p>
+
+        <div class="settled">
+          <div class="row"><span>Client</span><b>Jordan Avery</b></div>
+          <div class="row"><span>First sitting</span><b>Sat, Nov 8 · 11–4</b></div>
+        </div>
+
+        <div class="spacer">
+          <p class="lede">Space the rest</p>
+          <div class="pair">
+            <div class="stepper">
+              <button type="button" aria-label="Fewer weeks apart">−</button>
+              <span class="val">3 wks<small>apart</small></span>
+              <button type="button" aria-label="More weeks apart">+</button>
+            </div>
+            <div class="stepper">
+              <button type="button" aria-label="Fewer sittings">−</button>
+              <span class="val">4<small>sittings</small></span>
+              <button type="button" aria-label="More sittings">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="listhead">
+          <h4>Sittings</h4>
+          <span class="count">4 of 6</span>
+        </div>
+        <div class="going">
+          <div class="pick">
+            <span class="ordinal">1</span>
+            <span class="when"><b>Sat, Nov 8</b><small>11:00 AM – 4:00 PM</small></span>
+            <button class="x" type="button" aria-label="Remove Sat, Nov 8 from the sittings">×</button>
+          </div>
+          <div class="pick">
+            <span class="ordinal">2</span>
+            <span class="when"><b>Sat, Nov 29</b><small>11:00 AM – 4:00 PM</small></span>
+            <button class="x" type="button" aria-label="Remove Sat, Nov 29 from the sittings">×</button>
+          </div>
+          <div class="pick">
+            <span class="ordinal">3</span>
+            <span class="when"><b>Sat, Dec 20</b><small>11:00 AM – 4:00 PM</small></span>
+            <button class="x" type="button" aria-label="Remove Sat, Dec 20 from the sittings">×</button>
+          </div>
+          <div class="pick">
+            <span class="ordinal">4</span>
+            <span class="when"><b>Sat, Jan 10</b><small>11:00 AM – 4:00 PM</small></span>
+            <button class="x" type="button" aria-label="Remove Sat, Jan 10 from the sittings">×</button>
+          </div>
+        </div>
+        <div class="notice">
+          <span><b>Dec 20</b> runs into Mara’s session, 1–6. <span class="fix">Move to Dec 27</span></span>
+        </div>
+        <button class="addbtn" type="button">+ Add a date</button>
+        <p class="zone">Times in your zone, Los Angeles.</p>
+
+        <div class="actions">
+          <button class="btn cancel" type="button">Cancel</button>
+          <button class="btn primary" type="button">Book 4 sittings</button>
+        </div>
+        <p class="caption">The clash names the sitting, not just the booking.</p>
+      </div>
+
+      <p class="cost"><b>Cost:</b> one new control, plus a generator that has to run the conflict check per
+        date it writes. <b>Buys:</b> the four-taps-to-a-four-sitting-piece version of “really easy”, and it is
+        the only shape where the spacing is the thing she states rather than arithmetic she does.</p>
+    </figure>
+
+  </div>
+
+  <section class="calls">
+    <h3>The calls behind the drawings</h3>
+    <div class="grid">
+
+      <div class="call">
+        <h4>A and C are not rivals</h4>
+        <p>C is A with a generator bolted above the same list. Every date it writes lands in A’s list and is
+          editable there, so building A first and adding C later costs nothing extra.</p>
+        <p class="rec"><b>Recommendation: ship A, then add C.</b> A is the shape that makes several sittings
+          possible; C is the shape that makes it fast.</p>
+      </div>
+
+      <div class="call">
+        <h4>Why B is drawn but not recommended</h4>
+        <p>It reads best cold, and it is the only shape that gives each sitting its own length without a
+          sheet. But it is a second time-picking layout, which the 2026-10-21 ruling and CAK-1728 exist
+          specifically to prevent.</p>
+        <p class="rec">If per-sitting length matters more than the layout ruling, that is Micah’s call to
+          make, not this preview’s.</p>
+      </div>
+
+      <div class="call">
+        <h4>The clash has to name the sitting</h4>
+        <p>With one session a refusal can say “that time is taken”. With four it must say <b>which</b>, or she
+          has to find it herself. C shows the shape: the notice names the date and offers the nudge.</p>
+        <p class="rec">This is why the conflict check runs per sitting rather than over the set.</p>
+      </div>
+
+      <div class="call">
+        <h4>The cap, and the count</h4>
+        <p>Drawn as <b>6</b> here, against Time offers’ 8. The count sits beside the heading and turns amber
+          near the limit, exactly as CAK-1630 settled it for day chips.</p>
+        <p class="rec">Four or six both read fine at this width. A longer piece can take a second booking.</p>
+      </div>
+
+      <div class="call">
+        <h4>One deposit, one client, told once</h4>
+        <p>All three set the client, the piece and the deposit above the times, because those belong to the
+          piece rather than to a sitting. That is also <a href="https://linear.app/cake-ink/issue/CAK-1429">CAK-1429</a>’s
+          fix: the deposit stops being credited to whichever sitting happens to be last.</p>
+      </div>
+
+      <div class="call">
+        <h4>What a single sitting looks like</h4>
+        <p>Unchanged, in all three. With one row the list is one row, the count reads <i>1 of 6</i>, and the
+          button says <i>Book it now</i> as it does today.</p>
+        <p class="rec">A single booking must not get slower or wordier to make room for this.</p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<script>
+  const root = document.documentElement;
+  for (const button of document.querySelectorAll("[data-theme-set]")) {
+    button.addEventListener("click", () => {
+      const next = button.dataset.themeSet;
+      root.setAttribute("data-cake", next);
+      for (const other of document.querySelectorAll("[data-theme-set]")) {
+        other.setAttribute("aria-pressed", String(other === button));
+      }
+    });
+  }
+  root.setAttribute("data-cake", "light");
+</script>
